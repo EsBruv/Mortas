@@ -41,6 +41,39 @@
 
 ; --------------------------------= Initialization =--------------------------------
 
+    Initialize_Palette: ;___+
+        ldx #PALETTE_BKG_1  ;
+        ldy #BLUE           ;
+        jsr Load_Palette    ;
+        ;                   ;
+        ldx #PALETTE_BKG_2  ;
+        ldy #PURPLE         ;
+        jsr Load_Palette    ;
+        ;                   ;
+        ldx #PALETTE_BKG_3  ;
+        ldy #MEGENTA        ;
+        jsr Load_Palette    ;
+        ;                   ;
+        ldx #PALETTE_BKG_4  ;
+        ldy #PINK           ;
+        jsr Load_Palette    ;
+        ;                   ;
+        ldx #PALETTE_SPR_1  ;
+        ldy #ORANGE         ;
+        jsr Load_Palette    ;
+        ;                   ;
+        ldx #PALETTE_SPR_2  ;
+        ldy #GOLD           ;
+        jsr Load_Palette    ;
+        ;                   ;
+        ldx #PALETTE_SPR_3  ;
+        ldy #GREEN          ;
+        jsr Load_Palette    ;
+        ;                   ;
+        ldx #PALETTE_SPR_4  ;
+        ldy #EMERALD        ;
+        jsr Load_Palette    ;
+        ;                   ;
     Finalize: ;_____________+
         lda CPPUCRTL        ;
         ora #PPU_BKG_TABLE  ;
