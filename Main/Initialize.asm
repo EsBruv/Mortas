@@ -37,4 +37,26 @@
             bne clear_memory            ;
             ;                           ;
         jsr vBlankWait                  ;
+    ;
+
+; --------------------------------= Initialization =--------------------------------
+
+    Finalize: ;_____________+
+        lda CPPUCRTL        ;
+        ora #PPU_BKG_TABLE  ;
+        ora #PPU_NMI        ;
+        sta PPUCTRL         ;
+        sta CPPUCRTL        ;
+        ;                   ;
+        lda CPPUMASK        ;
+        ora #PPU_BKG        ;
+        ora #PPU_SPR        ;
+        sta PPUMASK         ;
+        ;                   ;
+        lda CamXPosition    ;
+        sta PPUSCROLL       ;
+        lda CamYPosition    ;
+        sta PPUSCROLL       ;
+    ;
+
 ;

@@ -51,3 +51,20 @@
     COUNTER_OVERFLOW = $60
 
     OFFSET = $02
+
+; --------------------------------= PPU =--------------------------------
+
+    PPUCRTL_RESET = $90
+
+    PPU_X = $01
+    PPU_Y = $02
+    PPU_VRAM_INC = $04
+    PPU_BKG_TABLE = $10
+    PPU_NMI = $80
+
+    PPU_GREY = $01
+    PPU_BKG = $08
+    PPU_SPR = $10
+    PPU_RED = $20
+    PPU_BLUE = $40
+    PPU_GREEN = $80
