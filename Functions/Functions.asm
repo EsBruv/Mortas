@@ -17,3 +17,4 @@
 ; --------------------------------= Connections =--------------------------------
 
     .include "Clock.asm"
+    .include "Palette.asm"
