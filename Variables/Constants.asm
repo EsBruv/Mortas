@@ -68,3 +68,29 @@
     PPU_RED = $20
     PPU_BLUE = $40
     PPU_GREEN = $80
+
+    PALETTE_HIGH = $3F
+
+    PALETTE_BKG_1 = $00
+    PALETTE_BKG_2 = $01
+    PALETTE_BKG_3 = $02
+    PALETTE_BKG_4 = $03
+    PALETTE_SPR_1 = $04
+    PALETTE_SPR_2 = $05
+    PALETTE_SPR_3 = $06
+    PALETTE_SPR_4 = $07
+
+    BLACK = $00
+    GREY = $04
+    BLUE = $08
+    PURPLE = $0C
+    MEGENTA = $10
+    PINK = $14
+    RED = $18
+    ORANGE = $1C
+    GOLD = $20
+    PUKE = $24
+    GREEN = $28
+    EMERALD = $2C
+    TEAL = $30
+    CYAN = $34
