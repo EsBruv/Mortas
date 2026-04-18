@@ -10,3 +10,9 @@
     Counter: .res 1
     SecondCounter: .res 1
     MinuteCounter: .res 1
+
+    CPPUCRTL: .res 1
+    CPPUMASK: .res 1
+
+    CamXPosition: .res 1
+    CamYPosition: .res 1
