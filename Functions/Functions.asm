@@ -18,3 +18,6 @@
 
     .include "Clock.asm"
     .include "Palette.asm"
+
+    .include "Input.asm"
+    .include "Buttons.asm"

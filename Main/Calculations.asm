@@ -19,6 +19,8 @@
             tax                         ; A -> X
             tay                         ; A -> Y
             ;                           ;
+            jsr Read_Buttons            ;
+            ;                           ;
         Frame_Calculation: ;____________+
             lda Counter                 ; Offset Frame Check
             and #OFFSET                 ;
