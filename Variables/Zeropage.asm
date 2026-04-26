@@ -20,3 +20,7 @@
 
     CamXPosition: .res 1
     CamYPosition: .res 1
+
+    ; --------------------------------= Pointer =--------------------------------
+
+    PointerReserve: .res 2
