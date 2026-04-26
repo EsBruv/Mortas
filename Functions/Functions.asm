@@ -16,6 +16,7 @@
 
 ; --------------------------------= Connections =--------------------------------
 
+    .include "Bank.asm"
     .include "Clock.asm"
     .include "Palette.asm"
 
