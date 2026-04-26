@@ -37,6 +37,63 @@
     _Y = $59
     Z = $5A
 
+; --------------------------------= Banks =--------------------------------
+    
+    SPRBANK0 = $00
+    SPRBANK1 = $01
+
+    BKGBANK0 = $02
+    BKGBANK1 = $03
+    BKGBANK2 = $04
+    BKGBANK3 = $05
+
+    PRGBANK0 = $06
+    PRGBANK1 = $07
+
+    CHR_SECTION_1 = $00
+    CHR_SECTION_2 = $01
+    CHR_SECTION_3 = $02
+    CHR_SECTION_4 = $03
+
+    ; <<<=-= PRG Banks =-=>>>
+        PRG00 = $00
+        PRG01 = $01
+        PRG02 = $02
+        PRG03 = $03
+        PRG04 = $04
+        PRG05 = $05
+        PRG06 = $06
+        PRG07 = $07
+        PRG08 = $08
+        PRG09 = $09
+        PRG0A = $0A
+        PRG0B = $0B
+        PRG0C = $0C
+        PRG0D = $0D
+
+    ; <<<=-= Sprite =-=>>>
+
+        SPR00 = $00
+        SPR01 = $08
+        SPR02 = $10
+        SPR03 = $18
+        SPR04 = $20
+        SPR05 = $28
+        SPR06 = $30
+        SPR07 = $38
+
+    ; <<<=-= Background =-=>>>
+
+        BKG00 = $04
+        BKG01 = $0C
+        BKG02 = $14
+        BKG03 = $1C
+        BKG04 = $24
+        BKG05 = $2C
+        BKG06 = $34
+        BKG07 = $3C
+;
+
 ; --------------------------------= Character =--------------------------------
 
     RESET = $00
