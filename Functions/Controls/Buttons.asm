@@ -96,6 +96,8 @@
         lda #HELD_TIMER_AMOUNT          ; Resets Held Timer
         sta Button_Held_Timer, X        ;
         ;                               ;
+        lda #BKG_SWAP_LATCH             ;
+        sta BKG_Control                 ;
         ; FUNCTIONALITY                 ;
         ;                               ;
         Start_Button_Function_End: ;____+

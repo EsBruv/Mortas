@@ -74,6 +74,18 @@
         ldy #EMERALD        ;
         jsr Load_Palette    ;
         ;                   ;
+    Initialize_Map: ;_______+
+        lda #<Map_00        ; Set Map Pointer
+        sta MapPointer      ;
+        lda #>Map_00        ;
+        sta MapPointer + 1  ;
+        ;                   ;
+        lda #<Attribute_00  ;
+        sta AttributePointer;
+        lda #>Attribute_00  ;
+        sta AttributePointer + 1;
+
+        ;                   ;
     Finalize: ;_____________+
         lda CPPUCRTL        ;
         ora #PPU_BKG_TABLE  ;

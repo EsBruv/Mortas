@@ -21,6 +21,12 @@
             ;                           ;
             jsr Read_Buttons            ;
             ;                           ;
+        Background_Calculation: ;_______+
+            lda BKG_Control             ; Background Swap Latch
+            and #BKG_SWAP_LATCH         ;
+            beq Frame_Calculation       ; Branch If Background Swap Latch = 0
+                jmp Main_Clear          ; Jump to End
+                ;                       ;
         Frame_Calculation: ;____________+
             lda Counter                 ; Offset Frame Check
             and #OFFSET                 ;
@@ -43,7 +49,7 @@
 
 ; --------------------------------= Methods =--------------------------------
     Fixed_Calculation: ;________________________+
-        ;                                       ;
+        jsr Button_Function                     ;
         Fixed_Calculation_Loop: ;_______________+
             ;                                   ;
         Fixed_Calculation_End: ;________________+

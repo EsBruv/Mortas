@@ -155,3 +155,43 @@
     EMERALD = $2C
     TEAL = $30
     CYAN = $34
+
+; --------------------------------= Background =--------------------------------
+
+    SCREEN_WIDTH = $20
+    SCREEN_HIGHT = $1E
+
+    METATILE_OFFSET = $04
+
+    ; <<<=-= Control =-=>>>
+    
+        BKG_CURRENT_TIME = $03
+        BKG_TIME_MAX = $03
+
+        CURRENT_SCREEN = $0C
+        SCREEN_1 = $00
+        SCREEN_2 = $04
+        SCREEN_3 = $08
+        SCREEN_4 = $0C
+
+        BKG_UNDERGROUND = $10
+        BKG_SWAP_LATCH = $20
+        BKG_SHIFT_DIRECTION = $40
+        BKG_SHIFT_LATCH = $80
+
+        BKG_CLEAR = $DC
+
+    ; <<<=-= Swap =-=>>>
+
+        NAMETABLE_HIGH = $2F
+
+        COLUMN_MAX = $08
+        ROW_MAX = $02
+
+        MAP_SIZE = $3F
+
+        ATTRIBUTE_HIGH = $2F
+        ATTRIBUTE_LOW = $C0
+        ATTRIBUTE_MAX = $40
+
+    ; <<<=-= Shift =-=>>>

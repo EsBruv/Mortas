@@ -20,5 +20,7 @@
     .include "Clock.asm"
     .include "Palette.asm"
 
-    .include "Input.asm"
-    .include "Buttons.asm"
+    .include "Controls/Input.asm"
+    .include "Controls/Buttons.asm"
+
+    .include "Background/Swap.asm"
