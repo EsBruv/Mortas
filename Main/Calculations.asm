@@ -52,6 +52,10 @@
         jsr Button_Function                     ;
         Fixed_Calculation_Loop: ;_______________+
             ;                                   ;
+            Fixed_Calculation_Player: ;_________+
+                jsr Button_Function             ;
+                jsr Movement                    ;
+                ;                               ;
         Fixed_Calculation_End: ;________________+
             rts                                 ;
         ;

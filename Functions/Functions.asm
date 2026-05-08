@@ -26,3 +26,4 @@
     .include "Background/Swap.asm"
 
     .include "Character/Render.asm"
+    .include "Character/Movement.asm"

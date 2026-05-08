@@ -108,7 +108,9 @@
         lda #HELD_TIMER_AMOUNT          ; Resets Held Timer
         sta Button_Held_Timer, X        ;
         ;                               ;
-        ; FUNCTIONALITY                 ;
+        lda MovementDir                 ;
+        ora #MOVEMENT_YVEL              ;
+        sta MovementDir                 ;
         ;                               ;
         Up_Button_Function_End: ;_______+
             rts                         ;
@@ -118,7 +120,10 @@
         lda #HELD_TIMER_AMOUNT          ; Resets Held Timer
         sta Button_Held_Timer, X        ;
         ;                               ;
-        ; FUNCTIONALITY                 ;
+        lda MovementDir                 ;
+        ora #MOVEMENT_YVEL              ;
+        ora #MOVEMENT_DOWN              ;
+        sta MovementDir                 ;
         ;                               ;
         Down_Button_Function_End: ;_____+
             rts                         ;
@@ -128,7 +133,9 @@
         lda #HELD_TIMER_AMOUNT          ; Resets Held Timer
         sta Button_Held_Timer, X        ;
         ;                               ;
-        ; FUNCTIONALITY                 ;
+        lda MovementDir                 ;
+        ora #MOVEMENT_XVEL              ;
+        sta MovementDir                 ;
         ;                               ;
         Left_Button_Function_End: ;_____+
             rts                         ;
@@ -138,7 +145,10 @@
         lda #HELD_TIMER_AMOUNT          ; Resets Held Timer
         sta Button_Held_Timer, X        ;
         ;                               ;
-        ; FUNCTIONALITY                 ;
+        lda MovementDir                 ;
+        ora #MOVEMENT_XVEL              ;
+        ora #MOVEMENT_RIGHT             ;
+        sta MovementDir                 ;
         ;                               ;
         Right_Button_Function_End: ;____+
             rts                         ;

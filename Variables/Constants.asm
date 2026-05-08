@@ -217,3 +217,10 @@
 
         ATTRIBUTE_H_FLIP = $40
         ATTRIBUTE_V_FLIP = $80
+
+    ;<<<=-= Movement =-=>>>
+
+        MOVEMENT_YVEL = $10
+        MOVEMENT_XVEL = $40
+        MOVEMENT_DOWN = $20
+        MOVEMENT_RIGHT = $80
