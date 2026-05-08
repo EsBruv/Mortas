@@ -7,28 +7,29 @@
 ; ================================================================
 
 .segment "ZEROPAGE"
-    MapColumn: .res 1
-    MapRow: .res 1
-    Tile: .res 1
-    MetaTileOffset: .res 1
 
-    Temp: .res 1
+    Temp: .res 16
 
-    Joypad: .res 1
-    Button_Held_Timer: .res 8
-    Counter: .res 1
-    SecondCounter: .res 1
-    MinuteCounter: .res 1
+    ; --------------------------------= Character =--------------------------------
 
-    CPPUCRTL: .res 1
-    CPPUMASK: .res 1
+        Joypad: .res 2
+        Button_Held_Timer: .res 8
 
-    CPPUADDR: .res 2
+    ; --------------------------------= Clock =--------------------------------
 
-    CamXPosition: .res 1
-    CamYPosition: .res 1
+        Counter: .res 1
+        SecondCounter: .res 1
+        MinuteCounter: .res 1
 
-    BKG_Control: .res 1
+    ; --------------------------------= Current =--------------------------------
+
+        CPPUCTRL: .res 1
+        CPPUMASK: .res 1
+
+        CPPUADDR: .res 2
+    
+    ; --------------------------------= Background =--------------------------------
+        BKG_Control: .res 1
         ; uUSD TTPP
         ; |||| ||||
         ; |||| ||++_ Time                       (Frame 0 - Frame 3)
@@ -38,6 +39,14 @@
         ; ||+_______ Background Swap Bit        (0: Don't Swap;     1: Swap)
         ; |+________ Shift Direction            (0: Up / Left;      1: Down / Right)
         ; +_________ Shift Bit                  (0: Don't Shift;    1: Shift)
+        
+        MapColumn: .res 1
+        MapRow: .res 1
+        Tile: .res 1
+        MetaTileOffset: .res 1
+
+        CamXPosition: .res 1
+        CamYPosition: .res 1
 
     ; --------------------------------= Character =--------------------------------
 
@@ -48,9 +57,9 @@
 
     ; --------------------------------= Pointer =--------------------------------
 
-    PointerReserve: .res 2
+        PointerReserve: .res 2
 
-    MapPointer: .res 2
+        MapPointer: .res 2
 
-    MetaPointer: .res 2
-    TilePointer: .res 2
+        MetaPointer: .res 2
+        TilePointer: .res 2

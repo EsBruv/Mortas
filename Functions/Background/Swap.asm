@@ -13,7 +13,7 @@
         ;                                       ;
         lda #RESET                              ;
         sta PPUCTRL                             ;
-        sta CPPUCRTL                            ;
+        sta CPPUCTRL                            ;
         ;                                       ;
         sta PPUMASK                             ;
         sta CPPUMASK                            ;
@@ -94,11 +94,11 @@
                 sta Tile                        ;
                 ;                               ;
         Background_Swap_End: ;__________________+
-            lda CPPUCRTL                        ;
+            lda CPPUCTRL                        ;
             ora #PPU_BKG_TABLE                  ;
             ora #PPU_NMI                        ;
             sta PPUCTRL                         ;
-            sta CPPUCRTL                        ;
+            sta CPPUCTRL                        ;
             ;                                   ;
             lda CPPUMASK                        ;
             ora #PPU_BKG                        ;

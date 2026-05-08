@@ -90,11 +90,11 @@
         sta XPosition       ;
         sta YPosition       ;
     Finalize: ;_____________+
-        lda CPPUCRTL        ;
+        lda CPPUCTRL        ;
         ora #PPU_BKG_TABLE  ;
         ora #PPU_NMI        ;
         sta PPUCTRL         ;
-        sta CPPUCRTL        ;
+        sta CPPUCTRL        ;
         ;                   ;
         lda CPPUMASK        ;
         ora #PPU_BKG        ;
