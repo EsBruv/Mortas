@@ -73,8 +73,13 @@
                 ldy #RESET                      ;
                 ;                               ;
                 Attribute_Loop: ;_______________+
-                    lda (AttributePointer), Y   ;
+                    lda (MapPointer), Y         ;
+                    lsr                         ;
+                    lsr                         ;
+                    tax                         ;
+                    lda Attribute, X            ;
                     sta PPUDATA                 ;
+                    ;                           ;
                     iny                         ;
                     cpy #ATTRIBUTE_MAX          ;
                     bne Attribute_Loop          ;

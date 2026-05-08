@@ -10,6 +10,7 @@
     .include "../../Palette.inc"
     .include "../../MetaTiles.inc"
     .include "../../Tiles.inc"
+    .include "../../MetaAttributes.inc"
     
     .include "../../Maps/Background/Map00.inc"
     .include "../../Maps/Attribute/Attribute00.inc"

@@ -51,7 +51,6 @@
     PointerReserve: .res 2
 
     MapPointer: .res 2
-    AttributePointer: .res 2
 
     MetaPointer: .res 2
     TilePointer: .res 2
