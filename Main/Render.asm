@@ -51,6 +51,9 @@
     Fixed_Render: ;_________________________+
         ;                                   ;
         Fixed_Render_Loop: ;________________+
+            ;                               ;
+            Fixed_Render_Character: ;_______+
+                jsr Render_Character        ;
                 ;                           ;
         Fixed_Render_End: ;_________________+
             rts                             ;
@@ -60,6 +63,9 @@
         ;                                   ;
         Offset_Render_Loop: ;_______________+
             ;                               ;
+            Offset_Render_Character: ;______+
+                jsr Render_Character        ;
+                ;                           ;
         Offset_Render_End: ;________________+
             rts                             ;
     ;
