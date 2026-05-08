@@ -195,3 +195,25 @@
         ATTRIBUTE_MAX = $40
 
     ; <<<=-= Shift =-=>>>
+
+; --------------------------------= Character =--------------------------------
+
+    ;<<<=-= Render =-=>>>
+
+        SPRITE_AMOUNT = $04
+
+        SPRITE_YPOSITION_FIX = $01
+        SPRITE_BASE = $00
+        SPRITE_OFFSET = $08
+
+        ATTRIBUTE_BASE = $00
+
+        ATTRIBUTE_PAL0 = $01
+        ATTRIBUTE_PAL1 = $02
+        ATTRIBUTE_PAL2 = $03
+        ATTRIBUTE_PAL3 = $04
+
+        ATTRIBUTE_PRIORITY = $20
+
+        ATTRIBUTE_H_FLIP = $40
+        ATTRIBUTE_V_FLIP = $80

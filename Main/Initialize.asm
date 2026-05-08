@@ -84,8 +84,11 @@
         sta AttributePointer;
         lda #>Attribute_00  ;
         sta AttributePointer + 1;
-
         ;                   ;
+    Initialize_Player: ;____+
+        lda #$80            ;
+        sta XPosition       ;
+        sta YPosition       ;
     Finalize: ;_____________+
         lda CPPUCRTL        ;
         ora #PPU_BKG_TABLE  ;
