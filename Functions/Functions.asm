@@ -24,6 +24,7 @@
     .include "Controls/Buttons.asm"
 
     .include "Background/Swap.asm"
+    .include "Background/Collision.asm"
 
     .include "Character/Render.asm"
     .include "Character/Movement.asm"

@@ -14,7 +14,6 @@
         MoveX: ;________________________+
             lda MovementDir             ; X Velocity Check
             and #MOVEMENT_XVEL          ;
-            and #MOVEMENT_XVEL          ;
             beq MoveY                   ; Branch if X Velocity = 0
             ;                           ;
             jsr Move_X                  ; Jump to Subroutine
@@ -22,13 +21,11 @@
         MoveY: ;________________________+
             lda MovementDir             ; Y Velocity Check
             and #MOVEMENT_YVEL          ;
-            and #MOVEMENT_YVEL          ;
             beq Movement_End            ; Branch if Y Velocity = 0
             ;                           ;
             jsr Move_Y                  ; Jump to Subroutine
             ;                           ;
         Movement_End: ;_________________+
-            lda #RESET                  ; Reset Variables
             lda #RESET                  ; Reset Variables
             sta MovementDir             ;
             tax                         ; A -> X
@@ -47,11 +44,23 @@
             dec XPosition                       ; Decrement XPosition
             dec XPosition                       ;
             ;                                   ;
+            jsr Wall_Collision_Top_Left         ; Top Left Collision Check
+            bne Move_X_Collision                ;
+            ;                                   ;
+            jsr Wall_Collision_Bottom_Left      ; Bottom Left Collision Check
+            bne Move_X_Collision                ;
+            ;                                   ;
             rts                                 ;
             ;                                   ;
         Move_X_Right: ;_________________________+
             inc XPosition                       ; Increment XPosition
             inc XPosition                       ;
+            ;                                   ;
+            jsr Wall_Collision_Top_Right        ; Top Right Collision Check
+            bne Move_X_Collision                ;
+            ;                                   ;
+            jsr Wall_Collision_Bottom_Right     ; Bottom Right Collision Check
+            bne Move_X_Collision                ;
             ;                                   ;
             rts                                 ;
         ;
@@ -65,11 +74,103 @@
             dec YPosition                       ; Decrement YPosition
             dec YPosition                       ;
             ;                                   ;
+            jsr Wall_Collision_Top_Left         ; Top Left Collision Check
+            bne Move_Y_Collision                ;
+            ;                                   ;
+            jsr Wall_Collision_Top_Right        ; Top Right Collision Check
+            bne Move_Y_Collision                ;
+            ;                                   ;
             rts                                 ;
             ;                                   ;
         Move_Y_Down: ;__________________________+
             inc YPosition                       ; Increment YPosition
             inc YPosition                       ;
             ;                                   ;
+            jsr Wall_Collision_Bottom_Left      ; Bottom Left Collision Check
+            bne Move_Y_Collision                ;
+            ;                                   ;
+            jsr Wall_Collision_Bottom_Right     ; Bottom Right Collision Check
+            bne Move_Y_Collision                ;
+            ;                                   ;
             rts                                 ;
 ;
+
+; --------------------------------= Collision =--------------------------------
+
+    Move_X_Collision: ;_________________+
+        cmp #COLLISION_SOLID            ;
+        beq Move_X_Collision_Solid      ;
+        ;                               ;
+        cmp #COLLISION_SHIFT            ;
+        beq Move_X_Collision_Shift      ;
+        ;                               ;
+        Move_X_Collision_Locked: ;______+
+            ; if locked, collide        ;
+            jmp Move_X_Collision_Solid  ;
+            ;                           ;
+            ; if Not Locked, Shift      ;
+            jmp Move_X_Collision_Shift  ;
+            ;                           ;
+        Move_X_Collision_Solid: ;_______+
+            jsr Move_X_Return           ;
+            rts                         ;
+            ;                           ;
+        Move_X_Collision_Shift: ;_______+
+            ; jsr Move_X_Shift
+            rts                         ;
+
+    Move_Y_Collision: ;_________________+
+        cmp #COLLISION_SOLID            ;
+        beq Move_Y_Collision_Solid      ;
+        ;                               ;
+        cmp #COLLISION_SHIFT            ;
+        beq Move_Y_Collision_Shift      ;
+        ;                               ;
+        Move_Y_Collision_Locked: ;______+
+            ; if locked, collide        ;
+            jmp Move_Y_Collision_Solid  ;
+            ;                           ;
+            ; if Not Locked, Shift      ;
+            jmp Move_Y_Collision_Shift  ;
+        ;                               ;
+        Move_Y_Collision_Solid: ;_______+
+            jsr Move_Y_Return           ;
+            rts                         ;
+            ;                           ;
+        Move_Y_Collision_Shift: ;_______+
+            ; jmp Move_Y_Shift
+            rts                         ;
+
+; --------------------------------= Return =--------------------------------
+
+    Move_X_Return: ;________________________+
+        lda MovementDir                     ; Direction Check
+        and #MOVEMENT_RIGHT                 ;
+        bne Move_X_Right_Return             ; Branch if Right
+        ;                                   ;
+        Move_X_Left_Return: ;_______________+
+            inc XPosition                   ; Increment XPosition
+            inc XPosition                   ;
+            rts                             ;
+            ;                               ;
+        Move_X_Right_Return: ;______________+
+            dec XPosition                   ; Decrement XPosition
+            dec XPosition                   ;
+            rts                             ;
+    ;                                       ;
+
+    Move_Y_Return: ;________________________+
+        lda MovementDir                     ; Direction Check
+        and #MOVEMENT_DOWN                  ;
+        bne Move_Y_Down_Return              ; Branch if Right
+        ;                                   ;
+        Move_Y_Up_Return: ;_________________+
+            inc YPosition                   ; Increment YPosition
+            inc YPosition                   ;
+            rts                             ;
+            ;                               ;
+        Move_Y_Down_Return: ;_______________+
+            dec YPosition                   ; Decrement YPosition
+            dec YPosition                   ;
+            rts                             ;
+    ;

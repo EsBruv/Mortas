@@ -188,11 +188,26 @@
         COLUMN_MAX = $08
         ROW_MAX = $02
 
-        MAP_SIZE = $3F
 
         ATTRIBUTE_HIGH = $2F
         ATTRIBUTE_LOW = $C0
         ATTRIBUTE_MAX = $40
+
+    ;<<<=-= Collision =-=>>>
+        COLLISION_WALK = $00    ; Not Used
+        COLLISION_SOLID = $01
+        COLLISION_SHIFT = $02
+        COLLISION_LOCKED = $03  ; Not Used 
+
+        COLLISION_MAP = $E0
+        COLLISION_TILE = $10
+        TILE_INDEX = $03
+        TILE_COLLISION = $03
+
+        CHARACTER_BASE = $00
+        CHARACTER_MIDDLE = $08
+        CHARACTER_WIDTH = $0F
+        CHARACTER_HEIGHT = $0F
 
     ; <<<=-= Shift =-=>>>
 

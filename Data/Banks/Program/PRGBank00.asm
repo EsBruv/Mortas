@@ -8,9 +8,9 @@
 
 .segment "BANK_00"
     .include "../../Palette.inc"
-    .include "../../MetaTiles.inc"
-    .include "../../Tiles.inc"
-    .include "../../MetaAttributes.inc"
+    .include "../../Tiles/Meta.inc"
+    .include "../../Tiles/Attributes.inc"
+    .include "../../Tiles/Collision.inc"
+    .include "../../Tiles/Tiles.inc"
     
     .include "../../Maps/Background/Map00.inc"
-    .include "../../Maps/Attribute/Attribute00.inc"

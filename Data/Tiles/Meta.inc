@@ -1,5 +1,5 @@
 ; ================================================================
-;   MetaTiles.inc
+;   Meta.inc
 ;   Handles MetaTile Data
 ;
 ;   Revision History:
