@@ -16,14 +16,18 @@
         lda #RESET                      ;
         sta OAMADDR                     ;
         ;                               ;
-        Background_Render: ;____________+
+        Background_Swap_Render: ;_______+
             lda BKG_Control             ; Background Swap Latch
             and #BKG_SWAP_LATCH         ;
             beq Render_Update           ; Branch If Background Swap Latch = 0
                 jsr Background_Swap     ; Swap Background
-                jmp Render_Update       ; Jump to End
                 ;                       ;
-        ;                               ;
+        Render_Shift_Shift: ;___________+
+            lda BKG_Control             ; Screen Shift Latch
+            and #BKG_SHIFT_LATCH        ;
+            beq Render_Update           ; Branch if !Shift Latch
+                ; jsr Shift               ; Shift Screen
+                ;                       ;
         Render_Update: ;________________+
             lda Counter                 ;
             and #OFFSET                 ;

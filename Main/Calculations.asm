@@ -7,49 +7,55 @@
 ; ================================================================
 
 ; --------------------------------= Calculation =--------------------------------
-    Main: ;_____________________________+
-        lda Counter                     ; Frame Latch
-        and #$01                        ;
-        beq Main_Start                  ; Branch if Frame Latch = 0
-        ;                               ;
-        jmp Main                        ; Restart
-        ;                               ;
-        Main_Start: ;___________________+
-            lda #RESET                  ; Clears Variables
-            tax                         ; A -> X
-            tay                         ; A -> Y
-            ;                           ;
-            jsr Read_Buttons            ;
-            ;                           ;
-        Background_Calculation: ;_______+
-            lda BKG_Control             ; Background Swap Latch
-            and #BKG_SWAP_LATCH         ;
-            beq Frame_Calculation       ; Branch If Background Swap Latch = 0
-                jmp Main_Clear          ; Jump to End
-                ;                       ;
-        Frame_Calculation: ;____________+
-            lda Counter                 ; Offset Frame Check
-            and #OFFSET                 ;
-            bne Calculate_Offset        ; Branch if Offset Frame
-            ;                           ;
-            Calculate_Fixed: ;__________+
-                jsr Fixed_Calculation   ; Fixed Frame
-                jmp Main_Clear          ;
-                ;                       ;
-            Calculate_Offset: ;_________+
-                jsr Offset_Calculation  ; Offset Frame
-                jmp Main_Clear          ;
-                ;                       ;
-        Main_Clear: ;___________________+
-            jsr Clock                   ; Increments Clock
-            ;                           ;
-        Main_End: ;_____________________+
-            jmp Main                    ;
+    Main: ;_____________________________________+
+        lda Counter                             ; Frame Latch
+        and #$01                                ;
+        beq Main_Start                          ; Branch if Frame Latch = 0
+        ;                                       ;
+        jmp Main                                ; Restart
+        ;                                       ;
+        Main_Start: ;___________________________+
+            lda #RESET                          ; Clears Variables
+            tax                                 ; A -> X
+            tay                                 ; A -> Y
+            ;                                   ;
+            jsr Read_Buttons                    ;
+            ;                                   ;
+        Background_Swap_Calculation: ;__________+
+            lda BKG_Control                     ; Background Swap Latch
+            and #BKG_SWAP_LATCH                 ;
+            beq Background_Shift_Calculation    ; Branch If Background Swap Latch = 0
+                jmp Main_Clear                  ; Jump to End
+                ;                               ;
+        Background_Shift_Calculation: ;_________+
+            lda BKG_Control                     ; Background Swap Latch
+            and #BKG_SHIFT_LATCH                ;
+            beq Frame_Calculation               ; Branch If Background Swap Latch = 0
+                jsr Shift                       ;
+                jmp Main_Clear                  ; Jump to End
+                ;                               ;
+        Frame_Calculation: ;____________________+
+            lda Counter                         ; Offset Frame Check
+            and #OFFSET                         ;
+            bne Calculate_Offset                ; Branch if Offset Frame
+            ;                                   ;
+            Calculate_Fixed: ;__________________+
+                jsr Fixed_Calculation           ; Fixed Frame
+                jmp Main_Clear                  ;
+                ;                               ;
+            Calculate_Offset: ;_________________+
+                jsr Offset_Calculation          ; Offset Frame
+                jmp Main_Clear                  ;
+                ;                               ;
+        Main_Clear: ;___________________________+
+            jsr Clock                           ; Increments Clock
+            ;                                   ;
+        Main_End: ;_____________________________+
+            jmp Main                            ;
 ;
 
 ; --------------------------------= Methods =--------------------------------
     Fixed_Calculation: ;________________________+
-        jsr Button_Function                     ;
         Fixed_Calculation_Loop: ;_______________+
             ;                                   ;
             Fixed_Calculation_Player: ;_________+

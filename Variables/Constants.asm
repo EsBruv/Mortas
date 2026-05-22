@@ -194,6 +194,7 @@
         ATTRIBUTE_MAX = $40
 
     ;<<<=-= Collision =-=>>>
+
         COLLISION_WALK = $00    ; Not Used
         COLLISION_SOLID = $01
         COLLISION_SHIFT = $02
@@ -210,6 +211,29 @@
         CHARACTER_HEIGHT = $0F
 
     ; <<<=-= Shift =-=>>>
+
+        INCREMENT_AMOUNT            = $02
+        DECREMENT_AMOUNT            = $02
+
+        SCREEN_LEFT                 = $10
+        SCREEN_RIGHT                = $E0
+        SCREEN_UP                   = $10
+        SCREEN_DOWN                 = $D0
+
+        SHIFT_EDGE_LEFT             = $02
+        SHIFT_EDGE_RIGHT            = $FE
+        SHIFT_EDGE_UP               = $02
+        SHIFT_EDGE_DOWN             = $EE
+
+        SHIFT_REPOSITION_RIGHT      = $30
+        SHIFT_REPOSITION_LEFT       = $D2
+        SHIFT_REPOSITION_UP         = $C2
+        SHIFT_REPOSITION_DOWN       = $30
+
+        SHIFT_OFFSET                = $40
+        SHIFT_DOWN_OFFSET           = $12
+
+        SHIFT_CLEAR                 = BKG_SWAP_LATCH + BKG_UNDERGROUND
 
 ; --------------------------------= Character =--------------------------------
 

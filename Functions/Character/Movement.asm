@@ -97,16 +97,16 @@
 
 ; --------------------------------= Collision =--------------------------------
 
-    Move_X_Collision: ;_________________+
+    Move_X_Collision: ;_________________+ X Collision Controller
         cmp #COLLISION_SOLID            ;
-        beq Move_X_Collision_Solid      ;
+        beq Move_X_Collision_Solid      ; Branch if Tile == SOLID
         ;                               ;
-        cmp #COLLISION_SHIFT            ;
+        cmp #COLLISION_SHIFT            ; Branch if Tile == SHIFT
         beq Move_X_Collision_Shift      ;
         ;                               ;
-        Move_X_Collision_Locked: ;______+
+        Move_X_Collision_Locked: ;______+ Locked Collision Controller
             ; if locked, collide        ;
-            jmp Move_X_Collision_Solid  ;
+            jmp Move_X_Collision_Solid  ; 
             ;                           ;
             ; if Not Locked, Shift      ;
             jmp Move_X_Collision_Shift  ;
@@ -116,7 +116,7 @@
             rts                         ;
             ;                           ;
         Move_X_Collision_Shift: ;_______+
-            ; jsr Move_X_Shift
+            jsr Move_X_Shift            ;
             rts                         ;
 
     Move_Y_Collision: ;_________________+
@@ -138,7 +138,7 @@
             rts                         ;
             ;                           ;
         Move_Y_Collision_Shift: ;_______+
-            ; jmp Move_Y_Shift
+            jsr Move_Y_Shift            ;
             rts                         ;
 
 ; --------------------------------= Return =--------------------------------
@@ -174,3 +174,64 @@
             dec YPosition                   ;
             rts                             ;
     ;
+
+; --------------------------------= Shift =--------------------------------
+    Move_X_Shift: ;_____________________+
+        lda XPosition                   ; Shift Left Check
+        cmp #SCREEN_LEFT                ;
+        bcc Move_X_Shift_Left           ;
+        ;                               ;
+        cmp #SCREEN_RIGHT               ; Shift Right Check
+        bcs Move_X_Shift_Right          ;
+        ;                               ;
+        Move_X_Shift_Center: ;__________+ Shift Center
+            ;                           ;
+            rts                         ;
+            ;                           ;
+        Move_X_Shift_Left: ;____________+ Shift Left
+            lda #BKG_SHIFT_LATCH        ;
+            ora #BKG_SWAP_LATCH         ;
+            ora #SCREEN_2               ;
+            sta BKG_Control             ;
+            ;                           ;
+            rts                         ;
+            ;                           ;
+        Move_X_Shift_Right: ;___________+ Shift Right
+            lda #BKG_SHIFT_LATCH        ;
+            ora #BKG_SWAP_LATCH         ;
+            ora #BKG_SHIFT_DIRECTION    ;
+            ora #SCREEN_2               ;
+            sta BKG_Control             ;
+            ;                           ;
+            rts                         ;
+        ;
+
+    Move_Y_Shift: ;_____________________+
+        lda YPosition                   ; Shift Up Check
+        cmp #SCREEN_UP                  ;
+        bcc Move_Y_Shift_Up             ; Branch if Yposition < $09
+        ;                               ;
+        cmp #SCREEN_DOWN                ; Shift Down Check
+        bcs Move_Y_Shift_Down           ; Branch if Yposition > $E0
+        ;                               ;
+        Move_Y_Shift_Center: ;__________+ Shift Center
+            ;                           ;
+            rts                         ;
+            ;                           ;
+        Move_Y_Shift_Up: ;______________+ Shift Up
+            lda #BKG_SHIFT_LATCH        ;
+            ora #BKG_SWAP_LATCH         ;
+            ora #SCREEN_3               ;
+            sta BKG_Control             ;
+            ;                           ;
+            rts                         ;
+            ;                           ;
+        Move_Y_Shift_Down: ;____________+ Shift Down
+            lda #BKG_SHIFT_LATCH        ;
+            ora #BKG_SWAP_LATCH         ;
+            ora #BKG_SHIFT_DIRECTION    ;
+            ora #SCREEN_3               ;
+            sta BKG_Control             ;
+            ;                           ;
+            rts                         ;
+;

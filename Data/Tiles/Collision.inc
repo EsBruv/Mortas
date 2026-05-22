@@ -9,3 +9,4 @@
     MetaCollision:
         .byte %00000000
         .byte %01010101
+        .byte %10101010

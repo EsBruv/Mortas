@@ -94,6 +94,8 @@
                 sta Tile                        ;
                 ;                               ;
         Background_Swap_End: ;__________________+
+            cli                                 ;
+            ;                                   ;
             lda CPPUCTRL                        ;
             ora #PPU_BKG_TABLE                  ;
             ora #PPU_NMI                        ;

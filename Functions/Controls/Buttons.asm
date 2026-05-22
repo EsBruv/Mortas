@@ -86,6 +86,11 @@
         lda #HELD_TIMER_AMOUNT          ; Resets Held Timer
         sta Button_Held_Timer, X        ;
         ;                               ;
+            lda #BKG_SHIFT_LATCH        ;
+            ora #BKG_SHIFT_DIRECTION    ;
+            ora #BKG_SWAP_LATCH         ;
+            ora #SCREEN_2               ;
+            sta BKG_Control             ;
         ; FUNCTIONALITY                 ;
         ;                               ;
         Select_Button_Function_End: ;___+
