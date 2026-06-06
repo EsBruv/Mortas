@@ -42,6 +42,19 @@
                 jmp Render_End          ;
                 ;                       ;
         Render_End: ;___________________+
+            lda PPUSTATUS               ;
+            ;                           ;
+            lda CPPUCTRL                ;
+            sta PPUCTRL                 ;
+            ;                           ;
+            lda CPPUMASK                ;
+            sta PPUMASK                 ;
+            ;                           ;
+            lda CamXPosition            ;
+            sta PPUSCROLL               ;
+            lda CamYPosition            ;
+            sta PPUSCROLL               ;
+            ;                           ;
             lda #RESET                  ;
             sta OAMADDR                 ;
             ;                           ;

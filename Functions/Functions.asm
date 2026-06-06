@@ -26,6 +26,7 @@
     .include "Background/Swap.asm"
     .include "Background/Collision.asm"
     .include "Background/Shift.asm"
+    .include "Background/Selection.asm"
 
     .include "Character/Render.asm"
     .include "Character/Movement.asm"

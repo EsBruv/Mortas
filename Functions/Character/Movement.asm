@@ -45,24 +45,24 @@
             dec XPosition                       ;
             ;                                   ;
             jsr Wall_Collision_Top_Left         ; Top Left Collision Check
-            bne Move_X_Collision                ;
+            sta Temp + 8                        ;
             ;                                   ;
             jsr Wall_Collision_Bottom_Left      ; Bottom Left Collision Check
-            bne Move_X_Collision                ;
+            sta Temp + 9                        ;
             ;                                   ;
-            rts                                 ;
+            jmp Move_X_Collision                ;
             ;                                   ;
         Move_X_Right: ;_________________________+
             inc XPosition                       ; Increment XPosition
             inc XPosition                       ;
             ;                                   ;
             jsr Wall_Collision_Top_Right        ; Top Right Collision Check
-            bne Move_X_Collision                ;
+            sta Temp + 8                        ;
             ;                                   ;
             jsr Wall_Collision_Bottom_Right     ; Bottom Right Collision Check
-            bne Move_X_Collision                ;
+            sta Temp + 9                        ;
             ;                                   ;
-            rts                                 ;
+            jmp Move_X_Collision                ;
         ;
 
     Move_Y: ;___________________________________+
@@ -75,34 +75,46 @@
             dec YPosition                       ;
             ;                                   ;
             jsr Wall_Collision_Top_Left         ; Top Left Collision Check
-            bne Move_Y_Collision                ;
+            sta Temp + 8                        ;
             ;                                   ;
             jsr Wall_Collision_Top_Right        ; Top Right Collision Check
-            bne Move_Y_Collision                ;
+            sta Temp + 9                        ;
             ;                                   ;
-            rts                                 ;
+            jmp Move_Y_Collision                ;
             ;                                   ;
         Move_Y_Down: ;__________________________+
             inc YPosition                       ; Increment YPosition
             inc YPosition                       ;
             ;                                   ;
             jsr Wall_Collision_Bottom_Left      ; Bottom Left Collision Check
-            bne Move_Y_Collision                ;
+            sta Temp + 8                        ;
             ;                                   ;
             jsr Wall_Collision_Bottom_Right     ; Bottom Right Collision Check
-            bne Move_Y_Collision                ;
+            sta Temp + 9                        ;
             ;                                   ;
-            rts                                 ;
+            jmp Move_Y_Collision                ;
 ;
 
 ; --------------------------------= Collision =--------------------------------
 
     Move_X_Collision: ;_________________+ X Collision Controller
+        lda Temp + 8                    ;
         cmp #COLLISION_SOLID            ;
         beq Move_X_Collision_Solid      ; Branch if Tile == SOLID
         ;                               ;
+        lda Temp + 9                    ;
+        cmp #COLLISION_SOLID            ;
+        beq Move_X_Collision_Solid      ; Branch if Tile == SOLID
+        ;                               ;
+        lda Temp + 8                    ;
         cmp #COLLISION_SHIFT            ; Branch if Tile == SHIFT
-        beq Move_X_Collision_Shift      ;
+        bne Move_X_Collision_Air        ;
+        ;                               ;
+        lda Temp + 9                    ;
+        cmp #COLLISION_SHIFT            ; Branch if Tile == SHIFT
+        bne Move_X_Collision_Air        ;
+        ;                               ;
+        jmp Move_X_Collision_Shift      ;
         ;                               ;
         Move_X_Collision_Locked: ;______+ Locked Collision Controller
             ; if locked, collide        ;
@@ -118,13 +130,28 @@
         Move_X_Collision_Shift: ;_______+
             jsr Move_X_Shift            ;
             rts                         ;
+        Move_X_Collision_Air: ;_________+
+            rts                         ;
+    ;
 
     Move_Y_Collision: ;_________________+
+        lda Temp + 8                    ;
         cmp #COLLISION_SOLID            ;
-        beq Move_Y_Collision_Solid      ;
+        beq Move_Y_Collision_Solid      ; Branch if Tile == SOLID
         ;                               ;
-        cmp #COLLISION_SHIFT            ;
-        beq Move_Y_Collision_Shift      ;
+        lda Temp + 9                    ;
+        cmp #COLLISION_SOLID            ;
+        beq Move_Y_Collision_Solid      ; Branch if Tile == SOLID
+        ;                               ;
+        lda Temp + 8                    ;
+        cmp #COLLISION_SHIFT            ; Branch if Tile == SHIFT
+        bne Move_Y_Collision_Air        ;
+        ;                               ;
+        lda Temp + 9                    ;
+        cmp #COLLISION_SHIFT            ; Branch if Tile == SHIFT
+        bne Move_Y_Collision_Air        ;
+        ;                               ;
+        jmp Move_Y_Collision_Shift      ;
         ;                               ;
         Move_Y_Collision_Locked: ;______+
             ; if locked, collide        ;
@@ -140,6 +167,9 @@
         Move_Y_Collision_Shift: ;_______+
             jsr Move_Y_Shift            ;
             rts                         ;
+        Move_Y_Collision_Air: ;_________+
+            rts                         ;
+    ;
 
 ; --------------------------------= Return =--------------------------------
 
@@ -194,6 +224,13 @@
             ora #SCREEN_2               ;
             sta BKG_Control             ;
             ;                           ;
+            lda BKG_Index               ;
+            sec                         ;
+            sbc #$01                    ;
+            sta BKG_Index               ;
+            ;                           ;
+            jsr Selection               ;
+            ;                           ;
             rts                         ;
             ;                           ;
         Move_X_Shift_Right: ;___________+ Shift Right
@@ -202,6 +239,13 @@
             ora #BKG_SHIFT_DIRECTION    ;
             ora #SCREEN_2               ;
             sta BKG_Control             ;
+            ;                           ;
+            lda BKG_Index               ;
+            clc                         ;
+            adc #$01                    ;
+            sta BKG_Index               ;
+            ;                           ;
+            jsr Selection               ;
             ;                           ;
             rts                         ;
         ;
@@ -224,6 +268,18 @@
             ora #SCREEN_3               ;
             sta BKG_Control             ;
             ;                           ;
+            lda CamYPosition            ;
+            sec                         ;
+            sbc #$10                    ;
+            sta CamYPosition            ;
+            ;                           ;
+            lda BKG_Index               ;
+            sec                         ;
+            sbc #$10                    ;
+            sta BKG_Index               ;
+            ;                           ;
+            jsr Selection               ;
+            ;                           ;
             rts                         ;
             ;                           ;
         Move_Y_Shift_Down: ;____________+ Shift Down
@@ -232,6 +288,13 @@
             ora #BKG_SHIFT_DIRECTION    ;
             ora #SCREEN_3               ;
             sta BKG_Control             ;
+            ;                           ;
+            lda BKG_Index               ;
+            clc                         ;
+            adc #$10                    ;
+            sta BKG_Index               ;
+            ;                           ;
+            jsr Selection               ;
             ;                           ;
             rts                         ;
 ;

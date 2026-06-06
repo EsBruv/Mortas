@@ -14,3 +14,6 @@
     .include "../../Tiles/Tiles.inc"
     
     .include "../../Maps/Background/Map00.inc"
+    .include "../../Maps/Background/Map01.inc"
+    .include "../../Maps/Background/Map10.inc"
+    .include "../../Maps/Background/Map11.inc"

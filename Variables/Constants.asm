@@ -119,6 +119,7 @@
 
     PPU_X = $01
     PPU_Y = $02
+    PPU_SCROLL_CLEAR        = $FC
     PPU_VRAM_INC = $04
     PPU_BKG_TABLE = $10
     PPU_NMI = $80
@@ -230,10 +231,7 @@
         SHIFT_REPOSITION_UP         = $C2
         SHIFT_REPOSITION_DOWN       = $30
 
-        SHIFT_OFFSET                = $40
-        SHIFT_DOWN_OFFSET           = $12
-
-        SHIFT_CLEAR                 = BKG_SWAP_LATCH + BKG_UNDERGROUND
+        SHIFT_X_OFFSET              = $12
 
 ; --------------------------------= Character =--------------------------------
 

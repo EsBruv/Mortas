@@ -29,6 +29,7 @@
         CPPUADDR: .res 2
     
     ; --------------------------------= Background =--------------------------------
+        BKG_Index: .res 1
         BKG_Control: .res 1
         ; uUSD TTPP
         ; |||| ||||

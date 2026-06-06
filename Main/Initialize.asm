@@ -75,10 +75,10 @@
         jsr Load_Palette    ;
         ;                   ;
     Initialize_Map: ;_______+
-        lda #<Map_00        ; Set Map Pointer
-        sta MapPointer      ;
-        lda #>Map_00        ;
-        sta MapPointer + 1  ;
+        jsr Selection       ;
+        ;                   ;
+        lda #BKG_SWAP_LATCH ;
+        sta BKG_Control     ;
         ;                   ;
     Initialize_Player: ;____+
         lda #$80            ;

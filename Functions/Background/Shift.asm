@@ -12,24 +12,24 @@
         and #CURRENT_SCREEN             ;
         ;                               ;
         cmp #SCREEN_2                   ;
-        beq Shift_Screen2               ; Branch If Current Screen = 2
+        beq Shift_Screen_2              ; Branch If Current Screen = 2
         cmp #SCREEN_3                   ;
-        beq Shift_Screen3               ; Branch If Current Screen = 3
+        beq Shift_Screen_3              ; Branch If Current Screen = 3
         ;                               ;
         rts                             ;
         ;                               ;
-        Shift_Screen2: ;________________;
+        Shift_Screen_2: ;_______________;
             lda BKG_Control             ;
-            and #SHIFT_OFFSET           ;
+            and #BKG_SHIFT_DIRECTION    ;
             beq Shift_Left_Jump         ;
                 jmp Shift_Right         ;
                 ;                       ;
             Shift_Left_Jump:            ;
                 jmp Shift_Left          ;
                 ;                       ;
-        Shift_Screen3:                  ;
+        Shift_Screen_3: ;_______________+
             lda BKG_Control             ;
-            and #SHIFT_OFFSET           ;
+            and #BKG_SHIFT_DIRECTION    ;
             beq Shift_Up_Jump           ;
                 jmp Shift_Down          ;
                 ;                       ;
@@ -41,7 +41,9 @@
     
     Shift_Up: ;_________________________+
         lda CPPUCTRL                    ;
-        ora #SCREEN_3                   ;
+        and #PPU_SCROLL_CLEAR           ;
+        ora #PPU_Y                      ;
+        sta PPUCTRL                     ;
         sta CPPUCTRL                    ;
         ;                               ;
         lda CamYPosition                ;
@@ -79,6 +81,7 @@
     ;
 
     Shift_Down: ;_______________________+
+        ;                               ;
         lda CamYPosition                ;
         clc                             ;
         adc #INCREMENT_AMOUNT           ;
@@ -99,7 +102,7 @@
             bne Shift_Down_End          ;
                 lda CamYPosition        ;
                 clc                     ;
-                adc #SHIFT_DOWN_OFFSET  ;
+                adc #SHIFT_X_OFFSET     ;
                 sta CamYPosition        ;
                 ;                       ;
                 lda YPosition           ;
@@ -115,7 +118,9 @@
 
     Shift_Left: ;_______________________+
         lda CPPUCTRL                    ;
-        ora #SCREEN_2                   ;
+        and #PPU_SCROLL_CLEAR           ;
+        ora #PPU_X                      ;
+        sta PPUCTRL                     ;
         sta CPPUCTRL                    ;
         ;                               ;
         lda CamXPosition                ;
@@ -189,30 +194,15 @@
 
     Shift_Clear: ;__________________+
         lda BKG_Control             ;
-        and #SHIFT_CLEAR            ;
+        and #BKG_UNDERGROUND        ;
+        ora #BKG_SWAP_LATCH         ;
         sta BKG_Control             ;
         ;                           ;
         lda CPPUCTRL                ;
-        and #$FC                    ;
+        and #PPU_SCROLL_CLEAR       ;
         sta CPPUCTRL                ;
         ;                           ;
     Shift_End: ;____________________+
-        lda #RESET                  ;
-        ora #PPU_BKG_TABLE          ;
-        ora #PPU_NMI                ;
-        sta PPUCTRL                 ;
-        sta CPPUCTRL                ;
-        ;                           ;
-        lda #RESET                  ;
-        ora #PPU_BKG                ;
-        ora #PPU_SPR                ;
-        sta PPUMASK                 ;
-        ;                           ;
-        lda CamXPosition            ;
-        sta PPUSCROLL               ;
-        lda CamYPosition            ;
-        sta PPUSCROLL               ;
-        ;                           ;
         lda #RESET                  ;
         tax                         ;
         tay                         ;
