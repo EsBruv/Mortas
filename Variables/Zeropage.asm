@@ -9,6 +9,7 @@
 .segment "ZEROPAGE"
 
     Temp: .res 16
+    RNGReserve: .res 2
 
     ; --------------------------------= Character =--------------------------------
 

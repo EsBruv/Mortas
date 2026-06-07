@@ -19,6 +19,7 @@
     .include "Bank.asm"
     .include "Clock.asm"
     .include "Palette.asm"
+    .include "RNG.asm"
 
     .include "Controls/Input.asm"
     .include "Controls/Buttons.asm"
