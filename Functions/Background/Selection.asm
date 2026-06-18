@@ -13,7 +13,7 @@
         sta PointerReserve + 1      ;
         ;                           ;
         Selection_Low: ;____________+
-            ldx BKG_Index     ;
+            ldx BKG_Index           ;
             ;                       ;
             lda Map_Data_Low, X     ;
             sta PointerReserve      ;
@@ -71,7 +71,7 @@
         lda #>Map_00                        ;
         sta MapPointer + 1                  ;
         ;                                   ;
-        rts
+        rts                                 ;
     ;
 
     Selection_01: ;_________________________+
@@ -80,7 +80,7 @@
         lda #>Map_01                        ;
         sta MapPointer + 1                  ;
         ;                                   ;
-        rts
+        rts                                 ;
     ;
 
     Selection_10: ;_________________________+
@@ -89,7 +89,7 @@
         lda #>Map_10                        ;
         sta MapPointer + 1                  ;
         ;                                   ;
-        rts
+        rts                                 ;
     ;
     
     Selection_11: ;_________________________+
@@ -98,5 +98,5 @@
         lda #>Map_11                        ;
         sta MapPointer + 1                  ;
         ;                                   ;
-        rts
+        rts                                 ;
     ;

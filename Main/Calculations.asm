@@ -16,6 +16,7 @@
         ;                                       ;
         Main_Start: ;___________________________+
             lda #RESET                          ; Clears Variables
+            sta CCharacter                      ;
             tax                                 ; A -> X
             tay                                 ; A -> Y
             ;                                   ;
@@ -32,7 +33,7 @@
             and #BKG_SHIFT_LATCH                ;
             beq Frame_Calculation               ; Branch If Background Swap Latch = 0
                 jsr Shift                       ;
-                jmp Main_Clear                  ; Jump to End
+                jmp Calculate_Offset            ; Jump to End
                 ;                               ;
         Frame_Calculation: ;____________________+
             lda Counter                         ; Offset Frame Check
@@ -56,20 +57,64 @@
 
 ; --------------------------------= Methods =--------------------------------
     Fixed_Calculation: ;________________________+
+        ;                                       ;
         Fixed_Calculation_Loop: ;_______________+
+            ldx CCharacter                      ;
+            ;                                   ;
+            lda CharacterHealth, X              ;
+            beq Fixed_Calculation_Loop_End      ;
+            ;                                   ;
+            cpx #$00                            ; NPC Check
+            bne Fixed_Calculation_NPC           ;
             ;                                   ;
             Fixed_Calculation_Player: ;_________+
                 jsr Button_Function             ;
+                jmp Fixed_Calculation_All       ;
+                ;                               ;
+            Fixed_Calculation_NPC: ;____________+
+                ; jsr AI_Movement                 ;
+                jmp Fixed_Calculation_All       ;
+                ;                               ;
+            Fixed_Calculation_All: ;____________;
+                jsr Dynamic_Collision           ;
                 jsr Movement                    ;
+                ;                               ;
+            Fixed_Calculation_Loop_End: ;_______+
+                inc CCharacter                  ; Next Character
+                ;                               ;
+                lda CCharacter                  ; Character Max Check
+                cmp #ENTITY_AMOUNT              ;
+                bne Fixed_Calculation_Loop      ; Branch if Current Character = Max Character
                 ;                               ;
         Fixed_Calculation_End: ;________________+
             rts                                 ;
         ;
 
-    Offset_Calculation: ;_______________________+
-        ;                                       ;
-        Offset_Calculation_Loop: ;______________+
-            ;                                   ;
-        Offset_Calculation_End: ;_______________+
-            rts                                 ;
+    Offset_Calculation: ;___________________________+
+        jsr Render_Empty                            ; Clear Sprite 0
+        ldy #RESET + 16                             ; Reset + Clear Sprite 0 Offset
+        ;                                           ;
+        Offset_Calculation_Loop: ;__________________+
+            ldx CCharacter                          ; Load Current Character Index
+            ;                                       ;
+            lda CharacterHealth, X                  ; Current Character Health Check
+            beq Offset_Calculation_Empty            ; Branch If Current Character Health == 0
+            ;                                       ;
+            Offset_Calculation_Character: ;_________+
+                jsr Render_Character                ; Render Character into OAMDMA
+                jmp Offset_Calculation_Loop_End     ; Jump to Loop End
+                ;                                   ;
+            Offset_Calculation_Empty: ;_____________+
+                jsr Render_Empty                    ; Render Empty into OAMDMA
+                jmp Offset_Calculation_Loop_End     ; Jump to Loop End
+                ;                                   ;
+            Offset_Calculation_Loop_End: ;__________+
+                inc CCharacter                      ; Next Character
+                ;                                   ;
+                lda CCharacter                      ; Character Max Check
+                cmp #ENTITY_AMOUNT                  ;
+                bne Offset_Calculation_Loop         ; Branch if Current Character = Max Character
+                ;                                   ;
+        Offset_Calculation_End: ;___________________+
+            rts                                     ;
     ;

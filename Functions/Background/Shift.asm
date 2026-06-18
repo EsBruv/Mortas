@@ -102,7 +102,7 @@
             bne Shift_Down_End          ;
                 lda CamYPosition        ;
                 clc                     ;
-                adc #SHIFT_X_OFFSET     ;
+                adc #SHIFT_Y_OFFSET     ;
                 sta CamYPosition        ;
                 ;                       ;
                 lda YPosition           ;

@@ -41,6 +41,12 @@
 
 ; --------------------------------= Initialization =--------------------------------
 
+    Initialize_RNG: ;_______+
+        lda #$C0            ;
+        sta RNGReserve      ;
+        lda #$DE            ;
+        sta RNGReserve + 1  ;
+        ;                   ;
     Initialize_Palette: ;___+
         ldx #PALETTE_BKG_1  ;
         ldy #BLUE           ;
@@ -84,6 +90,20 @@
         lda #$80            ;
         sta XPosition       ;
         sta YPosition       ;
+        sta CharacterHealth ;
+        ;                   ;
+        lda #%00000100      ;
+        sta CharacterType   ;
+        ;                   ;
+        
+        lda #$80            ;
+        sta XPosition + 1           ;
+        sta YPosition + 1           ;
+        sta CharacterHealth + 1     ;
+        ;                   ;
+        lda #%00000100      ;
+        sta CharacterType + 1   ;
+        ;                   ;
     Finalize: ;_____________+
         lda CPPUCTRL        ;
         ora #PPU_BKG_TABLE  ;

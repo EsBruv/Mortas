@@ -8,20 +8,17 @@
 
 ; --------------------------------= Calculations =--------------------------------
     Collision: ;____________________________+
-        ;                                   ; Temp      = X
-        ;                                   ; Temp + 1  = Y
-        ;                                   ; Temp + 2  = Map Position
-        ;                                   ; Temp + 3  = Map Index
-        ;                                   ; Temp + 4  = Tile Index
+        ;                                   ;
         Collision_Position: ;_______________+
             txa                             ; Load X Offset
+            ldx CCharacter                  ; 
             clc                             ;
-            adc XPosition                   ; Add Character X Position
+            adc XPosition, X                ; Add Character X Position
             sta Temp                        ;
             ;                               ;
             tya                             ; Load Y Offset
             clc                             ;
-            adc YPosition                   ; Add Character Y Position
+            adc YPosition, X                ; Add Character Y Position
             sta Temp + 1                    ;
             ;                               ;
         Collision_Map_Position: ;___________+
@@ -87,42 +84,6 @@
         Collision_Position_End: ;___________+
             and #TILE_COLLISION             ;
             sta Temp + 7                    ;
-            rts                             ;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        ; Collision_Tile_Position: ;__________+
-        ;     ;                               ;
-        ;     
-        ;     sta Temp + 3                    ;
-        ;     ;                               ;
-        ;     lda MetaCollision, X            ;
-        ;     sta Temp + 4                    ;
-        ;     ;                               ;
-        ;     lda Temp + 3                    ;
-        ;     beq Collision_Position_End      ;
-        ;     tax                             ;
-        ;     ;                               ;
-        ;     Collision_Tile_Shift: ;_________+
-        ;         lsr Temp + 4                ;
-        ;         lsr Temp + 4                ;
-        ;         dex                         ;
-        ;         bne Collision_Tile_Shift    ;
-        ;     ;                               ;
-        ; Collision_Position_End: ;___________+
-        ;     lda Temp + 4                    ;
-        ;     and #TILE_COLLISION             ;
             rts                             ;
 ;
 

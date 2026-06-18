@@ -10,23 +10,17 @@
     Render: ;___________________________+
         jsr Clock                       ;
         lda #RESET                      ;
+        sta OAMADDR                     ;
+        sta CCharacter                  ;
         tax                             ;
         tay                             ;
-        ;                               ;
-        lda #RESET                      ;
-        sta OAMADDR                     ;
         ;                               ;
         Background_Swap_Render: ;_______+
             lda BKG_Control             ; Background Swap Latch
             and #BKG_SWAP_LATCH         ;
             beq Render_Update           ; Branch If Background Swap Latch = 0
                 jsr Background_Swap     ; Swap Background
-                ;                       ;
-        Render_Shift_Shift: ;___________+
-            lda BKG_Control             ; Screen Shift Latch
-            and #BKG_SHIFT_LATCH        ;
-            beq Render_Update           ; Branch if !Shift Latch
-                ; jsr Shift               ; Shift Screen
+                jmp Render_End          ;
                 ;                       ;
         Render_Update: ;________________+
             lda Counter                 ;
@@ -46,7 +40,6 @@
             ;                           ;
             lda CPPUCTRL                ;
             sta PPUCTRL                 ;
-            ;                           ;
             lda CPPUMASK                ;
             sta PPUMASK                 ;
             ;                           ;
@@ -55,9 +48,6 @@
             lda CamYPosition            ;
             sta PPUSCROLL               ;
             ;                           ;
-            lda #RESET                  ;
-            sta OAMADDR                 ;
-            ;                           ;
         Render_Exit: ;__________________+
             bit PPUSTATUS               ;
             bmi Render_Exit             ;
@@ -65,24 +55,16 @@
 ;
 
 ; --------------------------------= Methods =--------------------------------
-    Fixed_Render: ;_________________________+
-        ;                                   ;
-        Fixed_Render_Loop: ;________________+
-            ;                               ;
-            Fixed_Render_Character: ;_______+
-                jsr Render_Character        ;
-                ;                           ;
-        Fixed_Render_End: ;_________________+
-            rts                             ;
+    Fixed_Render: ;_____________+
+        jsr Render_OAM          ;
+        ;                       ;
+        Fixed_Render_End: ;_____+
+            rts                 ;
         ;
 
-    Offset_Render: ;________________________+
-        ;                                   ;
-        Offset_Render_Loop: ;_______________+
-            ;                               ;
-            Offset_Render_Character: ;______+
-                jsr Render_Character        ;
-                ;                           ;
-        Offset_Render_End: ;________________+
-            rts                             ;
+    Offset_Render: ;____________+
+        jsr Render_OAM          ;
+        ;                       ;
+        Offset_Render_End: ;____+
+            rts                 ;
     ;

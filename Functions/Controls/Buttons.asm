@@ -66,6 +66,8 @@
         lda #HELD_TIMER_AMOUNT          ; Resets Held Timer
         sta Button_Held_Timer, X        ;
         ;                               ;
+        jsr Projectile_Spawn            ;
+        ;                               ;
         ; FUNCTIONALITY                 ;
         ;                               ;
         A_Button_Function_End: ;________+
@@ -110,8 +112,6 @@
     ;
 
     Up_Button_Function: ;_______________+
-        lda #HELD_TIMER_AMOUNT          ; Resets Held Timer
-        sta Button_Held_Timer, X        ;
         ;                               ;
         lda MovementDir                 ;
         ora #MOVEMENT_YVEL              ;
@@ -122,8 +122,6 @@
     ;
 
     Down_Button_Function: ;_____________+
-        lda #HELD_TIMER_AMOUNT          ; Resets Held Timer
-        sta Button_Held_Timer, X        ;
         ;                               ;
         lda MovementDir                 ;
         ora #MOVEMENT_YVEL              ;
@@ -135,8 +133,6 @@
     ;
 
     Left_Button_Function: ;_____________+
-        lda #HELD_TIMER_AMOUNT          ; Resets Held Timer
-        sta Button_Held_Timer, X        ;
         ;                               ;
         lda MovementDir                 ;
         ora #MOVEMENT_XVEL              ;
@@ -147,8 +143,6 @@
     ;
 
     Right_Button_Function: ;____________+
-        lda #HELD_TIMER_AMOUNT          ; Resets Held Timer
-        sta Button_Held_Timer, X        ;
         ;                               ;
         lda MovementDir                 ;
         ora #MOVEMENT_XVEL              ;

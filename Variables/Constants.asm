@@ -96,9 +96,9 @@
 
 ; --------------------------------= Character =--------------------------------
 
-    RESET = $00
-    MAX = $FF
-
+    RESET   = $00
+    HALF    = $80
+    MAX     = $FF
 
     FPS = $78
 
@@ -216,6 +216,9 @@
         INCREMENT_AMOUNT            = $02
         DECREMENT_AMOUNT            = $02
 
+        SCREEN_X_INCREMENT          = $01
+        SCREEN_Y_INCREMENT          = $10
+
         SCREEN_LEFT                 = $10
         SCREEN_RIGHT                = $E0
         SCREEN_UP                   = $10
@@ -231,12 +234,16 @@
         SHIFT_REPOSITION_UP         = $C2
         SHIFT_REPOSITION_DOWN       = $30
 
-        SHIFT_X_OFFSET              = $12
+        SHIFT_Y_OFFSET              = $12
 
 ; --------------------------------= Character =--------------------------------
 
-    ;<<<=-= Render =-=>>>
+    PROJECTILE                          = $06
+    ENTITY_AMOUNT                       = $0F
 
+    ; <<<=-= Render =-=>>>
+
+        DMA = $0200
         SPRITE_AMOUNT = $04
 
         SPRITE_YPOSITION_FIX = $01
@@ -255,9 +262,21 @@
         ATTRIBUTE_H_FLIP = $40
         ATTRIBUTE_V_FLIP = $80
 
-    ;<<<=-= Movement =-=>>>
+    ; <<<=-= Movement =-=>>>
 
-        MOVEMENT_YVEL = $10
-        MOVEMENT_XVEL = $40
-        MOVEMENT_DOWN = $20
-        MOVEMENT_RIGHT = $80
+        STUN_1              = $01
+
+        MOVEMENT_DIRECTION  = MOVEMENT_PRIMARY + MOVEMENT_DOWN + MOVEMENT_RIGHT
+
+        MOVEMENT_VELOCITY   = MOVEMENT_YVEL + MOVEMENT_XVEL
+
+        MOVEMENT_PRIMARY    = $08
+        MOVEMENT_YVEL       = $10
+        MOVEMENT_XVEL       = $40
+        MOVEMENT_DOWN       = $20
+        MOVEMENT_RIGHT      = $80
+
+    ; <<<=-= Sprite =-=>>>
+
+        DRAKON = $00
+        BOOK = $01

@@ -29,5 +29,10 @@
     .include "Background/Shift.asm"
     .include "Background/Selection.asm"
 
-    .include "Character/Render.asm"
+    .include "Character/Collision.asm"
+    .include "Character/Enemy.asm"
+    .include "Character/Health.asm"
     .include "Character/Movement.asm"
+    .include "Character/Projectile.asm"
+    .include "Character/Render.asm"
+    .include "Character/Selection.asm"
