@@ -24,10 +24,12 @@
     .include "Controls/Input.asm"
     .include "Controls/Buttons.asm"
 
-    .include "Background/Swap.asm"
+    .include "Background/Alt_Swap.asm"
     .include "Background/Collision.asm"
-    .include "Background/Shift.asm"
+    .include "Background/Menu.asm"
     .include "Background/Selection.asm"
+    .include "Background/Shift.asm"
+    .include "Background/Swap.asm"
 
     .include "Character/Collision.asm"
     .include "Character/Enemy.asm"

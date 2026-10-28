@@ -18,8 +18,15 @@
         Background_Swap_Render: ;_______+
             lda BKG_Control             ; Background Swap Latch
             and #BKG_SWAP_LATCH         ;
-            beq Render_Update           ; Branch If Background Swap Latch = 0
+            beq Menu_Render             ; Branch If Background Swap Latch = 0
                 jsr Background_Swap     ; Swap Background
+                jmp Render_End          ;
+                ;                       ;
+        Menu_Render: ;__________________+
+            lda Menu_Control            ;
+            and #MENU_NEXT              ;
+            beq Render_Update           ;
+                jsr Menu                ;
                 jmp Render_End          ;
                 ;                       ;
         Render_Update: ;________________+
@@ -49,8 +56,6 @@
             sta PPUSCROLL               ;
             ;                           ;
         Render_Exit: ;__________________+
-            bit PPUSTATUS               ;
-            bmi Render_Exit             ;
             rti                         ;
 ;
 

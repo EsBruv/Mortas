@@ -68,7 +68,7 @@
             bne Fixed_Calculation_NPC           ;
             ;                                   ;
             Fixed_Calculation_Player: ;_________+
-                jsr Button_Function             ;
+                jsr Button                      ;
                 jmp Fixed_Calculation_All       ;
                 ;                               ;
             Fixed_Calculation_NPC: ;____________+
@@ -91,8 +91,7 @@
         ;
 
     Offset_Calculation: ;___________________________+
-        jsr Render_Empty                            ; Clear Sprite 0
-        ldy #RESET + 16                             ; Reset + Clear Sprite 0 Offset
+        ldy #RESET + 8                              ; Reset + Clear Sprite 0 Offset
         ;                                           ;
         Offset_Calculation_Loop: ;__________________+
             ldx CCharacter                          ; Load Current Character Index

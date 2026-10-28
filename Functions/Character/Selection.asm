@@ -14,6 +14,7 @@
     Projectiles:
         .byte $00, $00, $00, $00
         .byte $0B, $00, $00, $00
+        .byte $00, $00, $00, $00
 
     Character_Damage:
         .byte $00, $00, $00, $00

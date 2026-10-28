@@ -86,6 +86,11 @@
         lda #BKG_SWAP_LATCH ;
         sta BKG_Control     ;
         ;                   ;
+        lda #<Dialogue_     ;
+        sta DialoguePointer ;
+        lda #>Dialogue_     ;
+        sta DialoguePointer + 1;
+        ;                   ;
     Initialize_Player: ;____+
         lda #$80            ;
         sta XPosition       ;
@@ -96,13 +101,13 @@
         sta CharacterType   ;
         ;                   ;
         
-        lda #$80            ;
-        sta XPosition + 1           ;
-        sta YPosition + 1           ;
-        sta CharacterHealth + 1     ;
-        ;                   ;
-        lda #%00000100      ;
-        sta CharacterType + 1   ;
+        ; lda #$80            ;
+        ; sta XPosition + 1           ;
+        ; sta YPosition + 1           ;
+        ; sta CharacterHealth + 1     ;
+        ; ;                   ;
+        ; lda #%00000100      ;
+        ; sta CharacterType + 1   ;
         ;                   ;
     Finalize: ;_____________+
         lda CPPUCTRL        ;

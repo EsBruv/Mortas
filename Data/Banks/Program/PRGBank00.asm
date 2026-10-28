@@ -13,6 +13,8 @@
     .include "../../Tiles/Collision.inc"
     .include "../../Tiles/Tiles.inc"
     
+    .include "../../Dialogue.inc"
+
     .include "../../Maps/Background/Map00.inc"
     .include "../../Maps/Background/Map01.inc"
     .include "../../Maps/Background/Map10.inc"

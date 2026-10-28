@@ -8,34 +8,44 @@
 
 ; --------------------------------= Alphabet =--------------------------------
 
-    ALPHABET_OFFSET = $00
+    ALPHABET_OFFSET     = $37
 
-    _A = $41
-    B = $42
-    C = $43
-    D = $44
-    E = $45
-    F = $46
-    G = $47
-    H = $48
-    I = $49
-    J = $4A
-    K = $4B
-    L = $4C
-    M = $4D
-    N = $4E
-    O = $4F
-    P = $50
-    Q = $51
-    R = $52
-    S = $53
-    T = $54
-    U = $55
-    V = $56
-    W = $57
-    _X = $58
-    _Y = $59
-    Z = $5A
+    _A                  = $41
+    B                   = $42
+    C                   = $43
+    D                   = $44
+    E                   = $45
+    F                   = $46
+    G                   = $47
+    H                   = $48
+    I                   = $49
+    J                   = $4A
+    K                   = $4B
+    L                   = $4C
+    M                   = $4D
+    N                   = $4E
+    O                   = $4F
+    P                   = $50
+    Q                   = $51
+    R                   = $52
+    S                   = $53
+    T                   = $54
+    U                   = $55
+    V                   = $56
+    W                   = $57
+    _X                  = $58
+    _Y                  = $59
+    Z                   = $5A
+
+    COMMA               = $5B
+    EXCLAMATION         = $5C
+    SINGLE_QUOTE        = $5D
+    AMPERSAND           = $5E
+    PERIOD              = $5F
+    DOUBLE_QUOTE_OPEN   = $60
+    DOUBLE_QUOTE_CLOSE  = $61
+    QUESTION            = $62
+    SPACE               = $63
 
 ; --------------------------------= Banks =--------------------------------
     
@@ -235,6 +245,26 @@
         SHIFT_REPOSITION_DOWN       = $30
 
         SHIFT_Y_OFFSET              = $12
+    
+    ; <<<=-= Menu =-=>>>
+
+        MENU_TIMER                  = $08
+        
+        MENU_OPTION_MIN             = $00
+        MENU_OPTION_MAX             = $07
+
+        MENU_POINTER                = $07
+        MENU_VALUE_SKIP             = $04
+
+        MENU_CLOSE                  = $20
+        MENU_SHOW                   = MENU_NEXT + MENU_OPEN
+        MENU_NEXT                   = $40
+        MENU_OPEN                   = $80
+
+        MENU_CORNER                 = $00
+        MENU_X_TILE                 = $01
+        MENU_Y_TILE                 = $02
+        MENU_FILL                   = $03
 
 ; --------------------------------= Character =--------------------------------
 

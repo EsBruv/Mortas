@@ -108,13 +108,15 @@
     ; --------------------------------= Character =--------------------------------
 
         Joypad: .res 2
-        Button_Held_Timer: .res 8
 
     ; --------------------------------= Clock =--------------------------------
 
         Counter: .res 1
+
         SecondCounter: .res 1
         MinuteCounter: .res 1
+
+        Button_Held_Timer: .res 8
 
     ; --------------------------------= Current =--------------------------------
 
@@ -138,6 +140,14 @@
             ; |+________ Shift Direction            (0: Up / Left;      1: Down / Right)
             ; +_________ Shift Bit                  (0: Don't Shift;    1: Shift)
         
+        Menu_Control: .res 1
+            ; ONUU Uooo
+            ; |||| ||||
+            ; |||| |+++_ Option Bit                 (0-5: Pointer;  6-8: Unused)
+            ; ||++-+____ Unused
+            ; |+________ Next Bit                   (0: Unused;     1: Next)
+            ; +_________ Open Bit                   (0: Closed;     1: Open)
+
         MapColumn: .res 1
         MapRow: .res 1
         Tile: .res 1
@@ -151,5 +161,8 @@
         PointerReserve: .res 2
 
         MapPointer: .res 2
+
+        DialoguePointer: .res 2
+        DialogueTextPointer: .res 2
 
         DamageControl: .res 1
