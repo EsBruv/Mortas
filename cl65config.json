@@ -1,5 +1,0 @@
-{
-  "executable": "..\\..\\..\\..\\..\\SDK\\cc65\\bin\\cl65",
-  "input": "Main.asm",
-  "params": "--verbose --target nes -o Mortas.nes"
-}

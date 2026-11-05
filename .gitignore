@@ -1,1 +1,4 @@
 Mortas.nes
+*.md
+/Documentation
+*.json
