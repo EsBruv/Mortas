@@ -4,9 +4,18 @@
 ;
 ;   Revision History:
 ;       Essam Erbab, April 2026: Created
+;       Essam Erbab, November 2026: Updated
 ; ================================================================
 
+; --------------------------------= Constants =--------------------------------
+
+    ; RESET             = $00 (Global.asm)
+
+    BUTTON_AMOUNT       = $08
+    HELD_TIMER_AMOUNT   = $00
+
 ; --------------------------------= Button Loop =--------------------------------
+
     Button_Function: ;______________________________+
         ldx #RESET                                  ; Loop Amount
         ;                                           ;

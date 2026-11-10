@@ -6,20 +6,48 @@
 ;       Essam Erbab, April 2026: Created
 ; ================================================================
 
+; --------------------------------= Constants =--------------------------------
+
+    ; RESET             = $00 (Global.asm)
+    ; MAX               = $FF (Global.asm)
+
+    ; PPU_BKG_TABLE     = $10 (Global.asm)
+    ; PPU_NMI           = $80 (Global.asm)
+    ; PPU_BKG           = $08 (Global.asm)
+    ; PPU_SPR           = $10 (Global.asm)
+
+    ; M                 = $4D (Global.asm)
+    ; O                 = $4F (Global.asm)
+    ; R                 = $52 (Global.asm)
+    ; T                 = $54 (Global.asm)
+    ; _A                = $41 (Global.asm)
+    ; S                 = $53 (Global.asm)
+
+    APU_CLEAR           = $40
+
 ; --------------------------------= Memory =--------------------------------
+    
+    vBlankWait: ;___________+
+        bit PPUSTATUS       ;
+        bpl vBlankWait      ; Branch on +
+        ;                   ;
+        rts                 ;
+    ;
+
     Initialize: ;_______________________+
         reset:                          ;
             sei                         ;
             cld                         ;
-            ldx #$40                    ;
+            ldx #APU_CLEAR              ;
             stx JOY2                    ;
             ldx #MAX                    ;
             txs                         ;
             ;                           ;
             ldx #RESET                  ;
-            stx PPUCTRL                 ;
-            stx PPUMASK                 ;
-            stx DMCFREQ                 ;
+            stx PPUCTRL                 ; NMI Off
+            stx PPUMASK                 ; Render Off
+            stx DMCFREQ                 ; DMC IRQ Off
+            stx APUSTATUS               ; APU Off
             ;                           ;
         jsr vBlankWait                  ;
         ;                               ;
@@ -36,90 +64,107 @@
             inx                         ;
             bne clear_memory            ;
             ;                           ;
+        Clear_OAM: ;____________________+
+            lda #MAX                    ;
+            ;                           ;
+            Clear_OAM_Loop:             ;
+                sta DMA, X              ;
+                inx                     ;
+                bne Clear_OAM_Loop      ;
+                ;                       ;
         jsr vBlankWait                  ;
-    ;
+        ;                               ;
+        jsr Initialize_Bank             ;
+        jsr Initialize_RNG              ;
+        jsr Initialize_Palette          ;
+        jsr Initialize_Background       ;
+        ;                               ;
+    Initialize_Player: ;________________+
+        lda #$20                        ;
+        sta XPosition                   ;
+        lda #$80                        ;
+        sta YPosition                   ;
+        sta CharacterHealth             ;
+        ;                               ;
+        lda #%00000100                  ;
+        sta CharacterType               ;
+        ;                               ;
 
-; --------------------------------= Initialization =--------------------------------
+        lda #$40                        ;
+        sta XPosition + 1               ;
+        lda #$80                        ;
+        sta YPosition + 1               ;
+        sta CharacterHealth + 1         ;
+        ;                               ;
+        lda #%00000100                  ;
+        sta CharacterType + 1           ;
 
-    Initialize_RNG: ;_______+
-        lda #$C0            ;
-        sta RNGReserve      ;
-        lda #$DE            ;
-        sta RNGReserve + 1  ;
-        ;                   ;
-    Initialize_Palette: ;___+
-        ldx #PALETTE_BKG_1  ;
-        ldy #BLUE           ;
-        jsr Load_Palette    ;
-        ;                   ;
-        ldx #PALETTE_BKG_2  ;
-        ldy #PURPLE         ;
-        jsr Load_Palette    ;
-        ;                   ;
-        ldx #PALETTE_BKG_3  ;
-        ldy #MEGENTA        ;
-        jsr Load_Palette    ;
-        ;                   ;
-        ldx #PALETTE_BKG_4  ;
-        ldy #PINK           ;
-        jsr Load_Palette    ;
-        ;                   ;
-        ldx #PALETTE_SPR_1  ;
-        ldy #ORANGE         ;
-        jsr Load_Palette    ;
-        ;                   ;
-        ldx #PALETTE_SPR_2  ;
-        ldy #GOLD           ;
-        jsr Load_Palette    ;
-        ;                   ;
-        ldx #PALETTE_SPR_3  ;
-        ldy #GREEN          ;
-        jsr Load_Palette    ;
-        ;                   ;
-        ldx #PALETTE_SPR_4  ;
-        ldy #EMERALD        ;
-        jsr Load_Palette    ;
-        ;                   ;
-    Initialize_Map: ;_______+
-        jsr Selection       ;
-        ;                   ;
-        lda #BKG_SWAP_LATCH ;
-        sta BKG_Control     ;
-        ;                   ;
-    Initialize_Player: ;____+
-        lda #$80            ;
-        sta XPosition       ;
-        sta YPosition       ;
-        sta CharacterHealth ;
-        ;                   ;
-        lda #%00000100      ;
-        sta CharacterType   ;
-        ;                   ;
-        
-        lda #$80            ;
-        sta XPosition + 1           ;
-        sta YPosition + 1           ;
-        sta CharacterHealth + 1     ;
-        ;                   ;
-        lda #%00000100      ;
-        sta CharacterType + 1   ;
-        ;                   ;
-    Finalize: ;_____________+
-        lda CPPUCTRL        ;
-        ora #PPU_BKG_TABLE  ;
-        ora #PPU_NMI        ;
-        sta PPUCTRL         ;
-        sta CPPUCTRL        ;
-        ;                   ;
-        lda CPPUMASK        ;
-        ora #PPU_BKG        ;
-        ora #PPU_SPR        ;
-        sta PPUMASK         ;
-        ;                   ;
-        lda CamXPosition    ;
-        sta PPUSCROLL       ;
-        lda CamYPosition    ;
-        sta PPUSCROLL       ;
+
+
+        lda #$60                        ;
+        sta XPosition + 2               ;
+        lda #$80                        ;
+        sta YPosition + 2               ;
+        sta CharacterHealth + 2         ;
+        ;                               ;
+        lda #%00000100                  ;
+        sta CharacterType + 2           ;
+        ;                               ;
+
+
+
+        lda #$80                        ;
+        sta XPosition + 3               ;
+        lda #$80                        ;
+        sta YPosition + 3               ;
+        sta CharacterHealth + 3         ;
+        ;                               ;
+        lda #%00000100                  ;
+        sta CharacterType + 3           ;
+        ;                               ;
+
+
+
+        lda #$A0                        ;
+        sta XPosition + 4               ;
+        lda #$80                        ;
+        sta YPosition + 4               ;
+        sta CharacterHealth + 4         ;
+        ;                               ;
+        lda #%00000100                  ;
+        sta CharacterType + 4           ;
+        ;                               ;
+    Finalize: ;_________________________+
+        lda #M                          ;
+        sta Validation + 0              ;
+        lda #O                          ;
+        sta Validation + 1              ;
+        lda #R                          ;
+        sta Validation + 2              ;
+        lda #T                          ;
+        sta Validation + 3              ;
+        lda #_A                         ;
+        sta Validation + 4              ;
+        lda #S                          ;
+        sta Validation + 5              ;
+        ;                               ;
+        lda CPPUCTRL                    ;
+        ora #PPU_BKG_TABLE              ;
+        ora #PPU_NMI                    ;
+        sta PPUCTRL                     ;
+        sta CPPUCTRL                    ;
+        ;                               ;
+        lda CPPUMASK                    ;
+        ora #PPU_BKG                    ;
+        ora #PPU_SPR                    ;
+        sta PPUMASK                     ;
+        ;                               ;
+        lda CamXPosition                ;
+        sta PPUSCROLL                   ;
+        lda CamYPosition                ;
+        sta PPUSCROLL                   ;
+        ;                               ;
+        jmp Main                        ;
     ;
 
 ;

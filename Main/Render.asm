@@ -8,10 +8,27 @@
 
 ; --------------------------------= Render =--------------------------------
     Render: ;___________________________+
+        pha                             ; Save A
+        ;                               ;
+        txa                             ; Save X
+        pha                             ;
+        ;                               ;
+        tya                             ; Save Y
+        pha                             ;
+        ;                               ;
+        lda Counter                     ; NMI Ready Check
+        and #NMI_FLAG                   ;
+        beq Render_Exit                 ; Branch if !NMI Ready
+        ;                               ;
+        lda Counter                     ;
+        ora #NMI_FLAG                   ;
+        eor #NMI_FLAG                   ;
+        sta Counter                     ;
+        ;                               ;
         jsr Clock                       ;
+        ;                               ;
         lda #RESET                      ;
         sta OAMADDR                     ;
-        sta CCharacter                  ;
         tax                             ;
         tay                             ;
         ;                               ;
@@ -49,8 +66,14 @@
             sta PPUSCROLL               ;
             ;                           ;
         Render_Exit: ;__________________+
-            bit PPUSTATUS               ;
-            bmi Render_Exit             ;
+            pla                         ; Restore Y
+            tay                         ;
+            ;                           ;
+            pla                         ;
+            tax                         ;
+            ;                           ;
+            pla                         ;
+            ;                           ;
             rti                         ;
 ;
 

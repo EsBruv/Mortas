@@ -7,7 +7,6 @@
 ; ================================================================
 
 .segment "BANK_00"
-    .include "../../Palette.inc"
     .include "../../Tiles/Meta.inc"
     .include "../../Tiles/Attributes.inc"
     .include "../../Tiles/Collision.inc"

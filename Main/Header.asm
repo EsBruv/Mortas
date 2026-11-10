@@ -7,9 +7,11 @@
 ; ================================================================
 
     .segment "HEADER"
-        .byte $4E, $45, $53                                 ; NES Verification
-        .byte $1A                                           ;
-        .byte $08                                           ; (16KB * 8 ($08) = 128KB)
-        .byte $10                                           ; (8KB * 16 ($10) = 128KB)
-        .byte $4A                                           ; 
-        .byte $00, $00, $00, $00, $00, $00, $00, $00, $00   ;
+        .byte $4E, $45, $53, $1A                            ; NES Verification
+        .byte $08                                           ; (16KB * 8 = 128KB)
+        .byte $10                                           ; (8KB * 16 = 128KB)
+        .byte %01001010                                     ; MMC3 (Mapper 4) + 4-Screen VRAM + Battery
+        .byte $08                                           ; NES 2.0
+        .byte $00, $00                                      ; Unused
+        .byte $70                                           ; 8 KB PRG-NVRAM
+        .byte $00, $00, $00, $00, $00                       ; Unused

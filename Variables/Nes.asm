@@ -69,7 +69,14 @@
     MMC3_BANK_SELECT    = $8000
     MMC3_BANK_DATA      = $8001
 
-    
+    MMC3_MIRRORING      = $A000
+
+    MMC3_RAM            = $A001
+    MMC3_IRQ_LATCH      = $C000
+    MMC3_IRQ_RELOAD     = $C001
+    MMC3_IRQ_DISABLE    = $E000
+    MMC3_IRQ_ENABLE     = $E001
+
     SQ1VOL              = $4000
     SQ1SWEEP            = $4001
     SQ1LO               = $4002

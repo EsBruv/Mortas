@@ -113,6 +113,12 @@
     ; --------------------------------= Clock =--------------------------------
 
         Counter: .res 1
+        ; 76CC CCCC
+        ; |||| ||||
+        ; ||++-++++_ Frame Counter  (0 - 60)
+        ; |+________ Unused
+        ; +_________ NMI Flag       (0: Calculation;    1: NMI Ready)
+        
         SecondCounter: .res 1
         MinuteCounter: .res 1
 

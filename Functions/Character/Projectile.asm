@@ -56,7 +56,6 @@
             rts                             ;
     ;
 
-
     Projectile_Direction: ;_____________________+
         lda Temp + 3                            ;
         and #MOVEMENT_PRIMARY                   ;

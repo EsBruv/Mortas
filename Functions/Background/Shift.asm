@@ -4,9 +4,51 @@
 ; 
 ;   Revision History:
 ;       Essam Erbab, May 2026: Created
+;       Essam Erbab, November 2026: Updated
 ; ================================================================
 
-; --------------------------------= Main =--------------------------------
+; --------------------------------= Constants =--------------------------------
+
+    ; RESET                 = $00 (Global.asm)
+    
+    ; BKG_SHIFT_DIRECTION   = $40 (Global.asm)
+
+    ; PPU_X                 = $01 (Global.asm)
+    ; PPU_Y                 = $02 (Global.asm)
+    ; PPU_SCROLL_CLEAR      = $FC (Global.asm)
+
+    ; CURRENT_SCREEN        = $0C (Swap.asm)
+    ; SCREEN_1              = $00 (Swap.asm)
+    ; SCREEN_2              = $04 (Swap.asm)
+    ; SCREEN_3              = $08 (Swap.asm)
+
+    ; SCREEN_SIZE           = $20 (Selection.asm)
+
+    INCREMENT_AMOUNT        = $02
+    DECREMENT_AMOUNT        = $02
+
+    SCREEN_X_INCREMENT      = $01
+    SCREEN_Y_INCREMENT      = $10
+
+    SCREEN_LEFT             = $10
+    SCREEN_RIGHT            = $E0
+    SCREEN_UP               = $10
+    SCREEN_DOWN             = $D0
+
+    SHIFT_EDGE_LEFT         = $02
+    SHIFT_EDGE_RIGHT        = $FE
+    SHIFT_EDGE_UP           = $02
+    SHIFT_EDGE_DOWN         = $EE
+
+    SHIFT_REPOSITION_RIGHT  = $30
+    SHIFT_REPOSITION_LEFT   = $D2
+    SHIFT_REPOSITION_UP     = $C2
+    SHIFT_REPOSITION_DOWN   = $30
+
+    SHIFT_Y_OFFSET          = $12
+
+; --------------------------------= Shift =--------------------------------
+    
     Shift: ;____________________________+
         lda BKG_Control                 ; Current Screen Check
         and #CURRENT_SCREEN             ;
@@ -192,15 +234,52 @@
             jmp Shift_End
     ;
 
+    Shift_Screen_Store: ;_______________________+
+        lda BKG_Control                         ;
+        and #CURRENT_SCREEN                     ;
+        cmp #SCREEN_3                           ;
+        beq Shift_Screen_Y_Store                ;
+        ;                                       ;
+        Shift_Screen_X_Store: ;_________________+
+            ldx #RESET                          ;
+            ;                                   ;
+            Shift_Screen_X_Store_Loop: ;________+
+                lda Screen_X, x                 ;
+                sta Screen_Main, x              ;
+                inx                             ;
+                cpx #SCREEN_SIZE                ;
+                bne Shift_Screen_X_Store_Loop   ;
+            rts                                 ;
+            ;                                   ;
+        Shift_Screen_Y_Store: ;_________________+
+            ldx #RESET                          ;
+            Shift_Screen_Y_Store_Loop: ;________+
+                lda Screen_Y, x                 ;
+                sta Screen_Main, x              ;
+                inx                             ;
+                cpx #SCREEN_SIZE                ;
+                bne Shift_Screen_Y_Store_Loop   ;
+            rts                                 ;
+
     Shift_Clear: ;__________________+
+        jsr Shift_Screen_Store      ;
+        ;                           ;
         lda BKG_Control             ;
         and #BKG_UNDERGROUND        ;
         ora #BKG_SWAP_LATCH         ;
+        ora #SCREEN_1               ;
         sta BKG_Control             ;
         ;                           ;
         lda CPPUCTRL                ;
         and #PPU_SCROLL_CLEAR       ;
         sta CPPUCTRL                ;
+        sta PPUCTRL                 ;
+        ;                           ;
+        lda #RESET                  ;
+        sta CamXPosition            ;
+        sta CamYPosition            ;
+        sta PPUSCROLL               ;
+        sta PPUSCROLL               ;
         ;                           ;
     Shift_End: ;____________________+
         lda #RESET                  ;

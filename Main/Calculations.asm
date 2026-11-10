@@ -6,10 +6,24 @@
 ;       Essam Erbab, April 2026: Created
 ; ================================================================
 
+; --------------------------------= Constants =--------------------------------
+
+    ; RESET                 = $00 (Global.asm)
+    ; OFFSET                = $02 (Global.asm)
+
+    ; BKG_SWAP_LATCH        = $20 (Global.asm)
+    ; BKG_SHIFT_LATCH       = $80 (Global.asm)
+    ; ENTITY_AMOUNT          = $08 (Global.asm)
+
+    ; SPRITE_ZERO_OFFSET    = $10 (Render.asm)
+
+
 ; --------------------------------= Calculation =--------------------------------
+    
     Main: ;_____________________________________+
         lda Counter                             ; Frame Latch
-        and #$01                                ;
+        and #NMI_FLAG                           ; Mask NMI Flag ;
+        ;                                       ;
         beq Main_Start                          ; Branch if Frame Latch = 0
         ;                                       ;
         jmp Main                                ; Restart
@@ -49,20 +63,28 @@
                 jmp Main_Clear                  ;
                 ;                               ;
         Main_Clear: ;___________________________+
-            jsr Clock                           ; Increments Clock
+            lda Counter                         ;
+            ora #NMI_FLAG                       ; Set NMI Flag
+            sta Counter                         ; Store Frame Latch
             ;                                   ;
         Main_End: ;_____________________________+
             jmp Main                            ;
 ;
 
 ; --------------------------------= Methods =--------------------------------
+    
     Fixed_Calculation: ;________________________+
+        ldy #RESET                              ;
+        jsr Render_Hidden                       ; Clear Sprite 0
+        ;                                       ;
+        lda #RESET                              ;
+        sta CCharacter                          ; Reset Current Character
         ;                                       ;
         Fixed_Calculation_Loop: ;_______________+
             ldx CCharacter                      ;
             ;                                   ;
             lda CharacterHealth, X              ;
-            beq Fixed_Calculation_Loop_End      ;
+            beq Fixed_Calculation_Render        ; Branch If Current Character Health == 0
             ;                                   ;
             cpx #$00                            ; NPC Check
             bne Fixed_Calculation_NPC           ;
@@ -76,8 +98,11 @@
                 jmp Fixed_Calculation_All       ;
                 ;                               ;
             Fixed_Calculation_All: ;____________;
-                jsr Dynamic_Collision           ;
+                jsr Dynamic_Collision           ; Dynamic Collision Check
                 jsr Movement                    ;
+                ;                               ;
+            Fixed_Calculation_Render: ;_________+
+                jsr Render_Entity               ;
                 ;                               ;
             Fixed_Calculation_Loop_End: ;_______+
                 inc CCharacter                  ; Next Character
@@ -90,31 +115,51 @@
             rts                                 ;
         ;
 
-    Offset_Calculation: ;___________________________+
-        jsr Render_Empty                            ; Clear Sprite 0
-        ldy #RESET + 16                             ; Reset + Clear Sprite 0 Offset
-        ;                                           ;
-        Offset_Calculation_Loop: ;__________________+
-            ldx CCharacter                          ; Load Current Character Index
-            ;                                       ;
-            lda CharacterHealth, X                  ; Current Character Health Check
-            beq Offset_Calculation_Empty            ; Branch If Current Character Health == 0
-            ;                                       ;
-            Offset_Calculation_Character: ;_________+
-                jsr Render_Character                ; Render Character into OAMDMA
-                jmp Offset_Calculation_Loop_End     ; Jump to Loop End
-                ;                                   ;
-            Offset_Calculation_Empty: ;_____________+
-                jsr Render_Empty                    ; Render Empty into OAMDMA
-                jmp Offset_Calculation_Loop_End     ; Jump to Loop End
-                ;                                   ;
-            Offset_Calculation_Loop_End: ;__________+
-                inc CCharacter                      ; Next Character
-                ;                                   ;
-                lda CCharacter                      ; Character Max Check
-                cmp #ENTITY_AMOUNT                  ;
-                bne Offset_Calculation_Loop         ; Branch if Current Character = Max Character
-                ;                                   ;
-        Offset_Calculation_End: ;___________________+
-            rts                                     ;
+    Offset_Calculation: ;_______________________________+
+        ldy #RESET                                      ;
+        jsr Render_Hidden                               ; Clear Sprite 0
+        ;                                               ;
+        lda #ENTITY_AMOUNT - 1                          ; Set Character Index to Last
+        sta CCharacter                                  ;
+        ;                                               ;
+        Offset_Calculation_Loop: ;______________________+
+            ldx CCharacter                              ;
+            ;                                           ;
+            lda CharacterHealth, X                      ;
+            beq Offset_Calculation_Render               ; Branch If Current Character Health == 0
+            ;                                           ;
+            cpx #$00                                    ; NPC Check
+            bne Offset_Calculation_NPC                  ;
+            ;                                           ;
+            Offset_Calculation_Player: ;________________+
+                jsr Button_Function                     ;
+                jmp Offset_Calculation_All              ;
+                ;                                       ;
+            Offset_Calculation_NPC: ;___________________+
+                ; jsr AI_Movement                         ;
+                jmp Offset_Calculation_All              ;
+                ;                                       ;
+            Offset_Calculation_All: ;___________________+
+                jsr Dynamic_Collision                   ; Dynamic Collision Check
+                jsr Movement                            ;
+                ;                                       ;
+            Offset_Calculation_Render: ;________________+
+                lda CCharacter                          ; Current Character
+                bne Offset_Calculation_Render_Reverse   ; Branch if Current Character = 0
+                jsr Render_Entity                       ;
+                ;                                       ;
+                jmp Offset_Calculation_Loop_End         ;
+                ;                                       ;
+                Offset_Calculation_Render_Reverse: ;____+
+                    jsr Render_Entity_Reverse           ;
+                    ;                                   ;
+            Offset_Calculation_Loop_End: ;______________+
+                lda CCharacter                          ; Current Character
+                beq Offset_Calculation_End              ; Branch if Current Character = 0
+                ;                                       ;
+                dec CCharacter                          ; Decrement to Reverse Loop
+                jmp Offset_Calculation_Loop             ; Branch if Current Character = Max Character
+                ;                                       ;
+        Offset_Calculation_End: ;_______________________+
+            rts                                         ;
     ;

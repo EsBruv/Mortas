@@ -58,7 +58,7 @@
                 cpx #PROJECTILE                 ; Projectile Check
                 bcc Move_X_Left_Speed_Store     ;
                 ;                               ;
-                clc                             ;
+                sec                             ;
                 sbc Character_Speed, Y          ;
                 ;                               ;
             Move_X_Left_Speed_Store: ;__________+
@@ -118,7 +118,7 @@
                 cpx #PROJECTILE                 ; Projectile Check
                 bcc Move_Y_Up_Speed_Store       ;
                 ;                               ;
-                clc
+                sec                             ;
                 sbc Character_Speed, Y          ;
                 ;                               ;
             Move_Y_Up_Speed_Store: ;____________+
@@ -427,8 +427,6 @@
             jmp Primary_Direction_Store     ;
             ;                               ;
         Primary_Direction_None: ;___________+
-            lda Previous_MovementDir, X     ;
-            sta Previous_MovementDir, X     ;
             jmp Primary_Direction_Clear     ;
             ;                               ;
         Primary_Direction_Store: ;__________+

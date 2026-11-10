@@ -4,17 +4,67 @@
 ; 
 ;   Revision History:
 ;       Essam Erbab, April 2026: Created
+;       Essam Erbab, November 2026: Updated
 ; ================================================================
 
+; --------------------------------= Constants =--------------------------------
+
+    ; RESET             = $00 (Global.asm)
+
+    ; PPU_NMI           = $80 (Global.asm)
+    ; PPU_BKG_TABLE     = $10 (Global.asm)
+    ; PPU_BKG           = $08 (Global.asm)
+    ; PPU_SPR           = $10 (Global.asm)
+
+    BKG_CLEAR           = $DC
+
+    BKG_TIME_CURRENT    = $03
+    BKG_TIME_MAX        = $03
+    TEMP_CURRENT_TIME   = Temp
+
+    NAMETABLE_HIGH      = $20
+    NAMETABLE_MAX       = $23
+
+    ATTRIBUTE_HIGH      = $2F
+    ATTRIBUTE_LOW       = $C0
+    ATTRIBUTE_MAX       = $40
+
+    CURRENT_SCREEN      = $0C
+    SCREEN_1            = $00
+    SCREEN_2            = $04
+    SCREEN_3            = $08
+    SCREEN_4            = $0C
+
+    COLUMN_MAX          = $08
+    ROW_MAX             = $02
+
+    SCREEN_WIDTH        = $20
+    SCREEN_HIGHT        = $1E   ; Unused
+
 ; --------------------------------= Background =--------------------------------
+
+    Initialize_Background: ;____________+
+        lda #SCREEN_1                   ;
+        sta BKG_Control                 ;
+        ;                               ;
+        jsr Selection                   ;
+        ;                               ;
+        lda #BKG_SWAP_LATCH             ;
+        sta BKG_Control                 ;
+        ;                               ;
+        rts                             ;
+        ;
+
     Background_Swap: ;__________________________+
         lda PPUSTATUS                           ;
         sei                                     ;
         ;                                       ;
+        jsr Background_Screen                   ;
+        ;                                       ;
         lda #RESET                              ;
         sta CPPUCTRL                            ;
-        sta CPPUMASK                            ;
         sta PPUCTRL                             ;
+        sta CPPUMASK                            ;
         sta PPUMASK                             ;
         ;                                       ;
         sta CPPUADDR                            ;
@@ -54,7 +104,7 @@
                     ;                           ;
             Background_Swap_Loop_End: ;_________+
                 lda BKG_Control                 ;
-                and #BKG_CURRENT_TIME           ;
+                and #BKG_TIME_CURRENT           ;
                 cmp #BKG_TIME_MAX               ;
                 beq Background_Swap_Clear       ;
                     inc BKG_Control             ;
@@ -62,7 +112,8 @@
                     ;                           ;
             Background_Swap_Clear: ;____________+
                 lda BKG_Control                 ;
-                and #ATTRIBUTE_HIGH             ;
+                and #CURRENT_SCREEN             ;
+                ora #NAMETABLE_MAX              ;
                 sta PPUADDR                     ;
                 ;                               ;
                 lda #ATTRIBUTE_LOW              ;
@@ -109,9 +160,48 @@
             rts                                 ;
     ;
     
+    Background_Screen: ;____________+
+        lda BKG_Control             ;
+        and #CURRENT_SCREEN         ;
+        cmp #SCREEN_2               ;
+        beq Background_Screen_X     ;
+        cmp #SCREEN_3               ;
+        beq Background_Screen_Y     ;
+        cmp #SCREEN_4               ;
+        beq Background_Screen_UI    ;
+        ;                           ;
+        Background_Screen_Main: ;___+
+            lda #<Screen_Main       ;
+            sta MapPointer          ;
+            lda #>Screen_Main       ;
+            sta MapPointer + 1      ;
+            rts                     ;
+            ;                       ;
+        Background_Screen_X: ;______+
+            lda #<Screen_X          ;
+            sta MapPointer          ;
+            lda #>Screen_X          ;
+            sta MapPointer + 1      ;
+            rts                     ;
+            ;                       ;
+        Background_Screen_Y: ;______+
+            lda #<Screen_Y          ;
+            sta MapPointer          ;
+            lda #>Screen_Y          ;
+            sta MapPointer + 1      ;
+            rts                     ;
+            ;                       ;
+        Background_Screen_UI: ;_____+
+            lda #<Screen_UI         ;
+            sta MapPointer          ;
+            lda #>Screen_UI         ;
+            sta MapPointer + 1      ;
+            rts                     ;
+            ;
+
     Background_Tile_Index: ;____+
         lda BKG_Control         ;
-        and #BKG_CURRENT_TIME   ;
+        and #BKG_TIME_CURRENT   ;
         asl                     ;
         asl                     ;
         asl                     ;
@@ -143,7 +233,13 @@
 
     Nametable_Address: ;________+
         lda BKG_Control         ;
-        and #NAMETABLE_HIGH     ;
+        and #BKG_TIME_CURRENT   ;
+        sta TEMP_CURRENT_TIME   ;
+        ;                       ;
+        lda BKG_Control         ;
+        and #CURRENT_SCREEN     ;
+        ora #NAMETABLE_HIGH     ;
+        ora TEMP_CURRENT_TIME   ;
         sta PPUADDR             ;
         sta CPPUADDR            ;
         ;                       ;

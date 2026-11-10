@@ -11,18 +11,22 @@
 .segment "VECTORS"
     .addr Render
     .addr Initialize
-    .addr 0
+    .addr IRQ
 
 ; --------------------------------= Variables =--------------------------------
 
     .include "Variables/Nes.asm"
     .include "Variables/Save.asm"
     .include "Variables/Zeropage.asm"
-    .include "Variables/Constants.asm"
+    .include "Variables/Global.asm"
     
 ; --------------------------------= Code =--------------------------------
 
 .segment "CODE"
+
+    IRQ: ;______+
+        rti     ;
+
     .include "Main/Initialize.asm"
  
     .include "Main/Calculations.asm"

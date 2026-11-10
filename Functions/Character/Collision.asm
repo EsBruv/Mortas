@@ -23,35 +23,30 @@
             cpy CCharacter                  ; Current Character Check
             beq Dynamic_Collision_Loop_End  ; Branch If Current Character
             ;                               ;
-            lda XPosition, X                ; CCRight
+            lda XPosition, X                ; Collided Right
             clc                             ;
             adc #CHARACTER_WIDTH            ;
-            cmp XPosition, Y                ; CYLeft
-            bcc Dynamic_Collision_Loop_End  ; Branch If CYLeft > CCRight
+            cmp XPosition, Y                ; Collider Left
+            bcc Dynamic_Collision_Loop_End  ; Branch If Collider Left > Collided Right
             ;                               ;
-            lda XPosition, Y                ; CYRight
+            lda XPosition, Y                ; Collider Right
             clc                             ;
             adc #CHARACTER_WIDTH            ;
-            cmp XPosition, X                ; CCLeft
-            bcc Dynamic_Collision_Loop_End  ; Branch If CYRight < CCLeft
+            cmp XPosition, X                ; Collided Left
+            bcc Dynamic_Collision_Loop_End  ; Branch If Collider Right < Collided Left
             ;                               ;
-            lda YPosition, X                ; CCUp
+            lda YPosition, X                ; Collided Up
             clc                             ;
             adc #CHARACTER_HEIGHT           ;
-            cmp YPosition, Y                ; CYDown
-            bcc Dynamic_Collision_Loop_End  ; Branch If CYDown > CCUp
+            cmp YPosition, Y                ; Collider Down
+            bcc Dynamic_Collision_Loop_End  ; Branch If Collider Down > Collided Up
             ;                               ;
-            lda YPosition, Y                ; CCDown
+            lda YPosition, Y                ; Collider Down
             clc                             ;
             adc #CHARACTER_HEIGHT           ;
-            cmp YPosition, X                ; CYUp
-            bcc Dynamic_Collision_Loop_End  ; Branch If CYUp < CCDown
-                ;                           ;
-
-                
-                ; Character Type
-                ;                           ;
-                jsr Health_Damage           ;
+            cmp YPosition, X                ; Collided Down
+            bcc Dynamic_Collision_Loop_End  ; Branch If Collided Down < Collider Up
+                jsr Damage                  ;
                 ;                           ;
             Dynamic_Collision_Loop_End: ;___+
                 dey                         ;
